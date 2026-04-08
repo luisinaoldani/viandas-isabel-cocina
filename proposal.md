@@ -2,31 +2,27 @@
 
 ## Propuesta TP Desarrollo - Lenguaje de Programación Java
 
-### Grupo
+## Grupo
 
-#### Integrantes
+### Integrantes
 
 | Legajo | Apellido y Nombre |
 |--------|-------------------|
 | 53999 | Oldani, Luisina María |
 | 55158 | Setti, Francisco |
 
----
 
-### Repositorios
+## Repositorios
 
 | Componente | Link |
 |------------|------|
 | Frontend |  |
 | Backend |  |
 
----
 
-### Tema
+## Tema
 
 Sistema de venta mayorista de viandas.
-
----
 
 ### Descripción
 
