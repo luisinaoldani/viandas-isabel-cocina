@@ -48,6 +48,6 @@ La aplicación web cliente-servidor a desarrollar consiste en un sistema de vent
 | :--- | :--- |
 | **ABMC** | 1. Cliente<br>2. Vianda<br>3. Ingrediente<br>4. Pedido<br>5. Detalle_pedido<br>6. Mayorista<br>7. Empresa |
 | **CU "Complejo"**(nivel resumen) | 1. CUR Gestionar pedido (CUU Realizar pedido y CUU Preparar pedido) |
-| **Listado complejo** | Listar pedidos confirmados |
-| **Nivel de acceso** | Usuario (Cliente) y Administrador |
+| **Listado complejo** | 1. Listado de pedidos confirmados |
+| **Nivel de acceso** | 1. Usuario (Cliente)<br>2. Administrador |
 
