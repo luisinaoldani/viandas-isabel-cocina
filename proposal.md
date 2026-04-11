@@ -36,7 +36,7 @@ La aplicación web cliente-servidor a desarrollar consiste en un sistema de vent
 
 ### Aprobación Directa
 
-| Requerimiento | Detalle/Listado de casos incluidos |
+| Requerimiento | Detalle |
 | :--- | :--- |
 | **ABMC** | 1. Usuario<br>2. Administrador<br>3. Cliente<br>4. Empresa<br>5. Mayorista<br>6. Vianda<br>7. Ingrediente<br>8. Ingrediente_vianda<br>9. Pedido<br>10. Detalle_pedido |
 | **CU "Complejo"**(nivel resumen) | 1. CUR Gestionar pedido (CUU Realizar pedido y CUU Preparar pedido) |
