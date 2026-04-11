@@ -28,7 +28,7 @@ La aplicación web cliente-servidor a desarrollar consiste en un sistema de vent
 
 | Requerimiento | Detalle |
 | :--- | :--- |
-| **ABMC simple** | 1. Cliente<br>2. Vianda |
+| **ABMC simple** | 1. Pedido<br>2. Vianda |
 | **ABMC dependiente** | 1. Ingrediente {depende de} Vianda |
 | **CU NO-ABMC** | 1. CUU Realizar pedido |
 | **Listado simple** | 1. Listado de las viandas => Detalle muestra información completa de las viandas y sus ingredientes |
@@ -38,7 +38,7 @@ La aplicación web cliente-servidor a desarrollar consiste en un sistema de vent
 
 | Requerimiento | Detalle/Listado de casos incluidos |
 | :--- | :--- |
-| **ABMC** | 1. Cliente<br>2. Vianda<br>3. Ingrediente<br>4. Pedido<br>5. Detalle_pedido<br>6. Mayorista<br>7. Empresa<br>8. Usuario<br>9. Administrador |
+| **ABMC** | 1. Usuario<br>2. Administrador<br>3. Cliente<br>4. Empresa<br>5. Mayorista<br>6. Vianda<br>7. Ingrediente<br>8. Ingrediente_vianda<br>9. Pedido<br>10. Detalle_pedido |
 | **CU "Complejo"**(nivel resumen) | 1. CUR Gestionar pedido (CUU Realizar pedido y CUU Preparar pedido) |
 | **Listado complejo** | 1. Listado de pedidos confirmados |
 | **Nivel de acceso** | 1. Usuario<br>2. Administrador |
