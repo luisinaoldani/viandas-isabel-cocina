@@ -17,7 +17,7 @@ Sistema de venta mayorista de viandas.
 
 ### Descripción
 
-La aplicación web cliente-servidor a desarrollar consiste en un sistema de venta mayorista de viandas a distintos tipos de clientes comerciales para la empresa **Isabel Cocina**. Los pedidos podrán ser realizados tanto por empresas que encargan viandas semanales para sus empleados, como por negocios que compran para su posterior reventa. El sistema gestionará la carga de pedidos para facilitar la organización de la producción y su entrega.
+La aplicación web cliente-servidor a desarrollar consiste en un sistema de venta mayorista de viandas a distintos tipos de clientes comerciales para la empresa **Isabel Cocina**. Los pedidos podrán ser realizados tanto por empresas que encargan viandas semanales para sus empleados, como por negocios que compran para su posterior reventa. El sistema gestionará la carga de pedidos para facilitar la organización de la producción.
 
 ## Modelo
 [Enlace a Modelo de Dominio](https://drive.google.com/file/d/1iFXt3sFQhubpgW-yk16cap_vWmWM1m17/view?usp=sharing)
