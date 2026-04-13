@@ -29,7 +29,7 @@ La aplicación web cliente-servidor a desarrollar consiste en un sistema de vent
 | Requerimiento | Detalle |
 | :--- | :--- |
 | **ABMC simple** | 1. Pedido<br>2. Vianda |
-| **ABMC dependiente** | 1. Ingrediente {depende de} Vianda |
+| **ABMC dependiente** | 1. Detalle_pedido {depende de} Pedido |
 | **CU NO-ABMC** | 1. CUU Realizar pedido |
 | **Listado simple** | 1. Listado de las viandas => Detalle muestra información completa de las viandas y sus ingredientes |
 | **Listado complejo** | - |
