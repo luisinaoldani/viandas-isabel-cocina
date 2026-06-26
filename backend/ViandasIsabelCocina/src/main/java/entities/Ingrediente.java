@@ -1,15 +1,15 @@
 package entities;
 
 public class Ingrediente {
-	private int codigo;
+	private String codigo;
 	private String nombre;
 	private Double stock;
 	private String unidadMedida;
 	
-	public int getCodigo() {
+	public String getCodigo() {
 		return codigo;
 	}
-	public void setCodigo(int codigo) {
+	public void setCodigo(String codigo) {
 		this.codigo = codigo;
 	}
 	public String getNombre() {
@@ -34,7 +34,7 @@ public class Ingrediente {
 	public Ingrediente(){	
 	}
 	
-	public Ingrediente(int codigo, String nombre, Double stock, String unidadMedida) {
+	public Ingrediente(String codigo, String nombre, Double stock, String unidadMedida) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.stock = stock;
