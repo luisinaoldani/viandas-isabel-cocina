@@ -50,49 +50,7 @@ public class DataVianda {
 		
 		return vianda;
 	}
-	
-	/*
-	 private void addReceta(Vianda v) {
-	    PreparedStatement stmt = null;
-	    ResultSet rs = null;
-	    
-	    String sentencia = "SELECT iv.cantidad, i.codigo, i.nombre, i.stock, i.unidadMedida " +
-	                 "FROM Ingrediente_vianda iv " +
-	                 "INNER JOIN Ingrediente i ON iv.idIngrediente = i.codigo " +
-	                 "WHERE iv.idVianda = ?";
-	                 
-	    try {
-	        stmt = DbConnector.getInstancia().getConn().prepareStatement(sentencia);
-	        stmt.setInt(1, v.getIdVianda());
-	        rs = stmt.executeQuery();
-	        
-	        if(rs != null) {
-	            while (rs.next()) {
-	                Ingrediente ing = new Ingrediente();
-	                ing.setCodigo(rs.getInt("codigo")); 
-	                ing.setNombre(rs.getString("nombre"));
-	                ing.setStock(rs.getDouble("stock"));
-	                ing.setUnidadMedida(rs.getString("unidadMedida"));
-	                
-	                Double cantidad = rs.getDouble("cantidad");
-	                
-	                v.agregarIngrediente(ing, cantidad);
-	            }
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        
-	    } finally {
-	    	try {
-				if(rs != null) {rs.close();}
-				if(stmt != null) {stmt.close();}
 
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-	    }
-	}
-	*/
 	
 	public Vianda getById(int idVianda) {
 		Vianda v = null;
