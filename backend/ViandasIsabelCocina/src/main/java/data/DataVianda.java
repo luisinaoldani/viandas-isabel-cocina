@@ -133,47 +133,11 @@ public class DataVianda {
 	    return vianda;
 	}
 	
-	/*
-	 private void saveReceta(Vianda v) {
-	 
-	
-	    PreparedStatement stmt = null;
-	    try {
-	        String sentencia = "INSERT INTO Ingrediente_vianda (idVianda, idIngrediente, cantidad) VALUES (?, ?, ?)";
-	        stmt = DbConnector.getInstancia().getConn().prepareStatement(sentencia);
 
-	        for (int i = 0; i < v.getReceta().size(); i++) {
-	            IngredienteVianda item = v.getReceta().get(i);
-	            
-	            stmt.setInt(1, v.getIdVianda()); 
-	            stmt.setInt(2, item.getIngrediente().getCodigo()); 
-	            stmt.setDouble(3, item.getCantidad());
-	            stmt.executeUpdate(); 
-	        }
-	        
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        
-	    } finally {
-	        try {
-	            if (stmt != null) { stmt.close(); }
-	            
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	}
-	*/
-	
 	public void deleteById(Vianda vianda) {
-		//PreparedStatement stmtDeleteReceta = null;
 	    PreparedStatement stmtDeleteVianda = null;
 	    try {
-	        /*
-	    	stmtDeleteReceta = DbConnector.getInstancia().getConn().prepareStatement("DELETE FROM Ingrediente_vianda WHERE idVianda = ?");
-	        stmtDeleteReceta.setInt(1, vianda.getIdVianda());
-	        stmtDeleteReceta.executeUpdate();
-			*/
+
 	        stmtDeleteVianda = DbConnector.getInstancia().getConn().prepareStatement("DELETE FROM vianda WHERE idVianda = ?");
 	        stmtDeleteVianda.setInt(1, vianda.getIdVianda());
 	        stmtDeleteVianda.executeUpdate();
@@ -198,8 +162,8 @@ public class DataVianda {
 				+ "descripcion = ?,"
 				+ "precioUnitario = ?,"
 				+ "tipo = ?,"
-				+ "activa = ?"
-				+ "WHERE idVianda = ?";
+				+ "activa = ? "
+				+ "WHERE idVianda = ? ";
 		 try {
 		        stmtUpdate = DbConnector.getInstancia().getConn().prepareStatement(sentencia);
 		        stmtUpdate.setString(1, vianda.getNombre());
@@ -211,14 +175,6 @@ public class DataVianda {
 		        
 		        stmtUpdate.executeUpdate();
 		        
-		        /*
-		        stmtDelete = DbConnector.getInstancia().getConn().prepareStatement("DELETE FROM Ingrediente_vianda WHERE idVianda = ?");
-		        stmtDelete.setInt(1, vianda.getIdVianda());
-		        
-		        stmtDelete.executeUpdate();
-		       
-		        this.saveReceta(vianda);
-		        */
 		        
 		    } catch (SQLException e) {
 		        e.printStackTrace();

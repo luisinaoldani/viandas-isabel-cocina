@@ -140,8 +140,8 @@ public void updateByCodigo(Ingrediente ingrediente) {
 	PreparedStatement stmtUpdate = null;
 	String sentencia = "UPDATE ingrediente SET nombre = ?,"
 			+ "stock = ?,"
-			+ "unidadMedida = ?,"
-			+ "WHERE codigo = ?";
+			+ "unidadMedida = ? "
+			+ "WHERE codigo = ? ";
 	 try {
 	        stmtUpdate = DbConnector.getInstancia().getConn().prepareStatement(sentencia);
 	        stmtUpdate.setString(1, ingrediente.getNombre());

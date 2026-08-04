@@ -1,13 +1,10 @@
 package servlets;
 
-import data.DataVianda;
 import entities.Vianda;
+import logic.ViandaService;
 import java.io.IOException;
 import java.util.LinkedList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,31 +14,28 @@ import javax.servlet.http.HttpServletResponse;
 public class ViandaServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private ViandaService service = new ViandaService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        DataVianda dv = new DataVianda();
 
         if (action == null) {
 
-            LinkedList lista = dv.getAll();
-            request.setAttribute("listaViandas", (Object) lista);
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/vianda/listar.jsp");
-            rd.forward((ServletRequest) request, (ServletResponse) response);
+            LinkedList<Vianda> lista = service.listar();
+            request.setAttribute("listaViandas", lista);
+            request.getRequestDispatcher("/WEB-INF/jsp/vianda/listar.jsp").forward(request, response);
 
         } else if (action.equals("new")) {
 
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/vianda/formulario.jsp");
-            rd.forward((ServletRequest) request, (ServletResponse) response);
+            request.getRequestDispatcher("/WEB-INF/jsp/vianda/formulario.jsp").forward(request, response);
 
         } else if (action.equals("edit")) {
 
-            String idVianda = request.getParameter("idVianda");
-            Vianda vianda = dv.getById(Integer.parseInt(idVianda));
-            request.setAttribute("vianda", (Object) vianda);
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/vianda/formulario.jsp");
-            rd.forward((ServletRequest) request, (ServletResponse) response);
+            int idVianda = Integer.parseInt(request.getParameter("idVianda"));
+            Vianda vianda = service.buscarPorId(idVianda);
+            request.setAttribute("vianda", vianda);
+            request.getRequestDispatcher("/WEB-INF/jsp/vianda/formulario.jsp").forward(request, response);
         }
     }
 }
