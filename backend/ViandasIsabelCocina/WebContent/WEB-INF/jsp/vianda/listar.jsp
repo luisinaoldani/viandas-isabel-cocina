@@ -34,8 +34,11 @@
    <td>
    
   <a href="vianda?action=edit&idVianda=<%= via.getIdVianda() %>" class="btn btn-warning btn-sm">Editar</a>
+  
+  <a href="vianda?action=detalle&idVianda=<%= via.getIdVianda() %>" class="btn btn-info btn-sm">Ver detalle</a>
    
-    <form action ="ViandaProcesar" method="post" style="display:inline">
+     <form action="ViandaProcesar" method="post" style="display:inline"
+          onsubmit="return confirm('¿Estás seguro que querés eliminar la vianda &quot;<%= via.getNombre() %>&quot;?');">
     <input type="hidden" name="accion" value="eliminar">
     <input type="hidden" name="idVianda" value="<%= via.getIdVianda() %>">
     <button type ="submit" class="btn btn-danger btn-sm">Eliminar</button>

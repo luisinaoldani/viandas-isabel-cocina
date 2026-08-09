@@ -162,7 +162,7 @@ public class DataVianda {
 				+ "descripcion = ?,"
 				+ "precioUnitario = ?,"
 				+ "tipo = ?,"
-				+ "activa = ? "
+				+ "activa = ?, "
 				+ "WHERE idVianda = ? ";
 		 try {
 		        stmtUpdate = DbConnector.getInstancia().getConn().prepareStatement(sentencia);
@@ -189,4 +189,6 @@ public class DataVianda {
 		    }
 		
 	}
+
+
 }

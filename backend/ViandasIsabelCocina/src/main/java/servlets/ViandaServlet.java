@@ -36,6 +36,14 @@ public class ViandaServlet extends HttpServlet {
             Vianda vianda = service.buscarPorId(idVianda);
             request.setAttribute("vianda", vianda);
             request.getRequestDispatcher("/WEB-INF/jsp/vianda/formulario.jsp").forward(request, response);
+            
+        } else if (action.equals("detalle")) {
+        	
+        	int idVianda = Integer.parseInt(request.getParameter("idVianda"));
+            Vianda vianda = service.detalle(idVianda);
+            request.setAttribute("vianda", vianda);
+            request.getRequestDispatcher("/WEB-INF/jsp/vianda/detalle.jsp").forward(request, response);
+            
         }
     }
 }

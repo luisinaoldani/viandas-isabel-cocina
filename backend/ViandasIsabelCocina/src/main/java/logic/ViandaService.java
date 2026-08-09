@@ -1,12 +1,15 @@
 package logic;
 
+import data.DataIngredienteVianda;
 import data.DataVianda;
+import entities.IngredienteVianda;
 import entities.Vianda;
 import java.util.LinkedList;
 
 public class ViandaService {
 
     private DataVianda dataVianda = new DataVianda();
+    private DataIngredienteVianda dataIngredienteVianda = new DataIngredienteVianda();
 
     public LinkedList<Vianda> listar() {
         return dataVianda.getAll();
@@ -39,5 +42,12 @@ public class ViandaService {
     public void eliminar(int idVianda) {
         Vianda vianda = dataVianda.getById(idVianda);
         dataVianda.deleteById(vianda);
+    }
+
+    public Vianda detalle(int idVianda) {
+        Vianda vianda = dataVianda.getById(idVianda);
+        LinkedList<IngredienteVianda> receta = dataIngredienteVianda.getByVianda(idVianda);
+        vianda.setReceta(receta);
+        return vianda;
     }
 }

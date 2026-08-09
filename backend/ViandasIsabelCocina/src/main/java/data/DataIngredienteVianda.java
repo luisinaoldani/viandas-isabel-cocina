@@ -195,4 +195,50 @@ public class DataIngredienteVianda {
 			}
 		}
 	}
+	
+	public LinkedList<IngredienteVianda> getByVianda(int idVianda) {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		LinkedList<IngredienteVianda> lista = new LinkedList<>();
+
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement(
+					"SELECT iv.codigoIngrediente, iv.cantidad, "
+					+ "i.nombre AS nombreIngrediente, i.stock, i.unidadMedida "
+					+ "FROM ingrediente_vianda iv, ingrediente i "
+					+ "WHERE iv.codigoIngrediente = i.codigo "
+					+ "AND iv.idVianda = ? ");
+			stmt.setInt(1, idVianda);
+			rs = stmt.executeQuery();
+
+			if (rs != null) {
+				while (rs.next()) {
+					Ingrediente i = new Ingrediente();
+					i.setCodigo(rs.getString("codigoIngrediente"));
+					i.setNombre(rs.getString("nombreIngrediente"));
+					i.setStock(rs.getDouble("stock"));
+					i.setUnidadMedida(rs.getString("unidadMedida"));
+
+					IngredienteVianda iv = new IngredienteVianda();
+					iv.setIngrediente(i);
+					iv.setCantidad(rs.getDouble("cantidad"));
+
+					lista.add(iv);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} finally {
+			try {
+				if (rs != null) { rs.close(); }
+				if (stmt != null) { stmt.close(); }
+				DbConnector.getInstancia().releaseConn();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return lista;
+	}
 }

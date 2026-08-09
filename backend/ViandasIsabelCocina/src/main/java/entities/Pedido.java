@@ -1,13 +1,13 @@
 package entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class Pedido {
 	private int numero;
-	private Date fechaRealizado;
-	private Date fechaEntrega;
-	private Date fechaCancelacion;
+	private LocalDate fechaRealizado;
+	private LocalDate fechaEntrega;
+	private LocalDate fechaCancelacion;
 	private String estado;
 
 	private LinkedList<DetallePedido> detalles = new LinkedList<>();
@@ -18,22 +18,22 @@ public class Pedido {
 	public void setNumero(int numero) {
 		this.numero = numero;
 	}
-	public Date getFechaRealizado() {
+	public LocalDate getFechaRealizado() {
 		return fechaRealizado;
 	}
-	public void setFechaRealizado(Date fechaRealizado) {
+	public void setFechaRealizado(LocalDate fechaRealizado) {
 		this.fechaRealizado = fechaRealizado;
 	}
-	public Date getFechaEntrega() {
+	public LocalDate getFechaEntrega() {
 		return fechaEntrega;
 	}
-	public void setFechaEntrega(Date fechaEntrega) {
+	public void setFechaEntrega(LocalDate fechaEntrega) {
 		this.fechaEntrega = fechaEntrega;
 	}
-	public Date getFechaCancelacion() {
+	public LocalDate getFechaCancelacion() {
 		return fechaCancelacion;
 	}
-	public void setFechaCancelacion(Date fechaCancelacion) {
+	public void setFechaCancelacion(LocalDate fechaCancelacion) {
 		this.fechaCancelacion = fechaCancelacion;
 	}
 	public String getEstado() {
@@ -50,7 +50,6 @@ public class Pedido {
 		this.detalles = detalles;
 	}
 
-	// Atributo derivado, se calcula sumando los subtotales de cada detalle
 	public Double getPrecioTotal() {
 		Double total = 0.0;
 		for (DetallePedido d : detalles) {
@@ -68,12 +67,12 @@ public class Pedido {
 		this.detalles = new LinkedList<>();
 	}
 
-	public Pedido(Date fechaEntrega) {
+	public Pedido(LocalDate fechaEntrega) {
 	    if (fechaEntrega == null) {
 	        throw new IllegalArgumentException("La fecha de entrega es obligatoria");
 	    }
 	    this.detalles = new LinkedList<>();
-	    this.fechaRealizado = new Date();
+	    this.fechaRealizado = LocalDate.now();
 	    this.fechaEntrega = fechaEntrega;
 	    this.estado = "PENDIENTE";
 	}
