@@ -12,7 +12,7 @@ public class DataVianda {
 	public LinkedList<Vianda> getAll(){
 		Statement stmt = null;
 		ResultSet rs = null;
-		LinkedList<Vianda> vianda = new LinkedList<>();
+		LinkedList<Vianda> viandas = new LinkedList<>();
 		
 		try {
 			stmt = DbConnector.getInstancia().getConn().createStatement();
@@ -28,9 +28,8 @@ public class DataVianda {
 					v.setTipo(rs.getString("tipo"));
 					v.setActiva(rs.getBoolean("activa"));
 					
-					//this.addReceta(v);
 					
-					vianda.add(v);
+					viandas.add(v);
 				}
 			}
 			
@@ -48,7 +47,7 @@ public class DataVianda {
 			}
 		}
 		
-		return vianda;
+		return viandas;
 	}
 
 	
@@ -72,7 +71,6 @@ public class DataVianda {
 				v.setTipo(rs.getString("tipo"));
 				v.setActiva(rs.getBoolean("activa"));
 				
-				//this.addReceta(v);
 			}
 			
 		} catch (SQLException e) {
@@ -113,7 +111,6 @@ public class DataVianda {
 	            int nuevoId = rs.getInt(1);
 	            vianda.setIdVianda(nuevoId);
 	            
-	            //this.saveReceta(vianda);
 	        }
 
 	    } catch (SQLException e) {
@@ -146,7 +143,6 @@ public class DataVianda {
 	        e.printStackTrace();
 	    } finally {
 	        try {
-	            //if (stmtDeleteReceta != null) { stmtDeleteReceta.close(); }
 	            if (stmtDeleteVianda != null) { stmtDeleteVianda.close(); }
 	            DbConnector.getInstancia().releaseConn();
 	        } catch (SQLException e) {
@@ -162,7 +158,7 @@ public class DataVianda {
 				+ "descripcion = ?,"
 				+ "precioUnitario = ?,"
 				+ "tipo = ?,"
-				+ "activa = ?, "
+				+ "activa = ? "
 				+ "WHERE idVianda = ? ";
 		 try {
 		        stmtUpdate = DbConnector.getInstancia().getConn().prepareStatement(sentencia);

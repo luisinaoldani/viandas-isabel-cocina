@@ -26,9 +26,9 @@
     </select>
 
     <label class="form-label">Ingrediente:</label>
-    <select class="form-control" name="codigoIngrediente">
+    <select class="form-control" name="idIngrediente">
     <% for (Ingrediente ing : listaIngredientes) { %>
-        <option value="<%= ing.getCodigo() %>" <%= iv != null && iv.getIngrediente().getCodigo().equals(ing.getCodigo()) ? "selected" : "" %>><%= ing.getNombre() %></option>
+        <option value="<%= ing.getIdIngrediente() %>" <%= iv != null && iv.getIngrediente().getIdIngrediente() == ing.getIdIngrediente() ? "selected" : "" %>><%= ing.getNombre() %></option>
     <% } %>
     </select>
 
@@ -36,6 +36,7 @@
     <input type="text" class="form-control" name="cantidad" value="<%= iv != null ? "" + iv.getCantidad() : "" %>">
 
     <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="ingredienteVianda" class="btn btn-secondary">Cancelar</a>
     </form>
 </body>
 </html>

@@ -35,6 +35,7 @@
 </select>
 
  <button type="submit" class="btn btn-primary">Guardar</button>
+ <a href="vianda" class="btn btn-secondary">Cancelar</a>
   </form>
 
 </body>

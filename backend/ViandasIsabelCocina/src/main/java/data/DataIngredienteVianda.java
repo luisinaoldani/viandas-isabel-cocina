@@ -19,16 +19,17 @@ public class DataIngredienteVianda {
 
 		try {
 			stmt = DbConnector.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery("SELECT iv.codigoIngrediente, iv.idVianda, iv.cantidad, "
-					+ "i.nombre AS nombreIngrediente, i.stock, i.unidadMedida, "
+			rs = stmt.executeQuery("SELECT iv.idIngrediente, iv.idVianda, iv.cantidad, "
+					+ "i.codigo AS codigoIngrediente, i.nombre AS nombreIngrediente, i.stock, i.unidadMedida, "
 					+ "v.nombre AS nombreVianda, v.descripcion, v.precioUnitario, v.tipo, v.activa "
 					+ "FROM ingrediente_vianda iv, ingrediente i, vianda v "
-					+ "WHERE iv.codigoIngrediente = i.codigo "
+					+ "WHERE iv.idIngrediente = i.idIngrediente "
 					+ "AND iv.idVianda = v.idVianda ");
 
 			if (rs != null) {
 				while (rs.next()) {
 					Ingrediente i = new Ingrediente();
+					i.setIdIngrediente(rs.getInt("idIngrediente"));
 					i.setCodigo(rs.getString("codigoIngrediente"));
 					i.setNombre(rs.getString("nombreIngrediente"));
 					i.setStock(rs.getDouble("stock"));
@@ -67,24 +68,26 @@ public class DataIngredienteVianda {
 	}
 
 
-	public IngredienteVianda getById(String codigoIngrediente, int idVianda) {
+	public IngredienteVianda getById(int idIngrediente, int idVianda) {
 		IngredienteVianda iv = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
 		try {
 			stmt = DbConnector.getInstancia().getConn().prepareStatement(
-					"SELECT iv.codigoIngrediente, iv.idVianda, iv.cantidad, i.nombre AS nombreIngrediente, "
-					+ "i.stock, i.unidadMedida, v.nombre AS nombreVianda, v.descripcion, v.precioUnitario, "
+					"SELECT iv.idIngrediente, iv.idVianda, iv.cantidad, "
+					+ "i.codigo AS codigoIngrediente, i.nombre AS nombreIngrediente, i.stock, i.unidadMedida, "
+					+ "v.nombre AS nombreVianda, v.descripcion, v.precioUnitario, "
 					+ "v.tipo, v.activa FROM ingrediente_vianda iv, ingrediente i, vianda v "
-					+ "WHERE iv.codigoIngrediente = i.codigo AND iv.idVianda = v.idVianda "
-					+ "AND iv.codigoIngrediente = ? AND iv.idVianda = ? ");
-			stmt.setString(1, codigoIngrediente);
+					+ "WHERE iv.idIngrediente = i.idIngrediente AND iv.idVianda = v.idVianda "
+					+ "AND iv.idIngrediente = ? AND iv.idVianda = ? ");
+			stmt.setInt(1, idIngrediente);
 			stmt.setInt(2, idVianda);
 			rs = stmt.executeQuery();
 
 			if (rs != null && rs.next()) {
 				Ingrediente i = new Ingrediente();
+				i.setIdIngrediente(rs.getInt("idIngrediente"));
 				i.setCodigo(rs.getString("codigoIngrediente"));
 				i.setNombre(rs.getString("nombreIngrediente"));
 				i.setStock(rs.getDouble("stock"));
@@ -124,8 +127,8 @@ public class DataIngredienteVianda {
 		PreparedStatement stmt = null;
 		try {
 			stmt = DbConnector.getInstancia().getConn().prepareStatement(
-					"INSERT INTO ingrediente_vianda (codigoIngrediente, idVianda, cantidad) VALUES (?, ?, ?)");
-			stmt.setString(1, ingredienteVianda.getIngrediente().getCodigo());
+					"INSERT INTO ingrediente_vianda (idIngrediente, idVianda, cantidad) VALUES (?, ?, ?)");
+			stmt.setInt(1, ingredienteVianda.getIngrediente().getIdIngrediente());
 			stmt.setInt(2, ingredienteVianda.getVianda().getIdVianda());
 			stmt.setDouble(3, ingredienteVianda.getCantidad());
 
@@ -151,12 +154,12 @@ public class DataIngredienteVianda {
 		return ingredienteVianda;
 	}
 
-	public void delete(String codigoIngrediente, int idVianda) {
+	public void delete(int idIngrediente, int idVianda) {
 		PreparedStatement stmtDeleteIngredienteVianda = null;
 		try {
 			stmtDeleteIngredienteVianda = DbConnector.getInstancia().getConn().prepareStatement(
-					"DELETE FROM ingrediente_vianda WHERE codigoIngrediente = ? AND idVianda = ?");
-			stmtDeleteIngredienteVianda.setString(1, codigoIngrediente);
+					"DELETE FROM ingrediente_vianda WHERE idIngrediente = ? AND idVianda = ?");
+			stmtDeleteIngredienteVianda.setInt(1, idIngrediente);
 			stmtDeleteIngredienteVianda.setInt(2, idVianda);
 			stmtDeleteIngredienteVianda.executeUpdate();
 
@@ -172,14 +175,14 @@ public class DataIngredienteVianda {
 		}
 	}
 
-	public void update(String codigoIngrediente, int idVianda, double cantidad) {
+	public void update(int idIngrediente, int idVianda, double cantidad) {
 		PreparedStatement stmtUpdate = null;
 		String sentencia = "UPDATE ingrediente_vianda SET cantidad = ? "
-				+ "WHERE codigoIngrediente = ? AND idVianda = ? ";
+				+ "WHERE idIngrediente = ? AND idVianda = ? ";
 		try {
 			stmtUpdate = DbConnector.getInstancia().getConn().prepareStatement(sentencia);
 			stmtUpdate.setDouble(1, cantidad);
-			stmtUpdate.setString(2, codigoIngrediente);
+			stmtUpdate.setInt(2, idIngrediente);
 			stmtUpdate.setInt(3, idVianda);
 
 			stmtUpdate.executeUpdate();
@@ -203,10 +206,10 @@ public class DataIngredienteVianda {
 
 		try {
 			stmt = DbConnector.getInstancia().getConn().prepareStatement(
-					"SELECT iv.codigoIngrediente, iv.cantidad, "
-					+ "i.nombre AS nombreIngrediente, i.stock, i.unidadMedida "
+					"SELECT iv.idIngrediente, iv.cantidad, "
+					+ "i.codigo AS codigoIngrediente, i.nombre AS nombreIngrediente, i.stock, i.unidadMedida "
 					+ "FROM ingrediente_vianda iv, ingrediente i "
-					+ "WHERE iv.codigoIngrediente = i.codigo "
+					+ "WHERE iv.idIngrediente = i.idIngrediente "
 					+ "AND iv.idVianda = ? ");
 			stmt.setInt(1, idVianda);
 			rs = stmt.executeQuery();
@@ -214,6 +217,7 @@ public class DataIngredienteVianda {
 			if (rs != null) {
 				while (rs.next()) {
 					Ingrediente i = new Ingrediente();
+					i.setIdIngrediente(rs.getInt("idIngrediente"));
 					i.setCodigo(rs.getString("codigoIngrediente"));
 					i.setNombre(rs.getString("nombreIngrediente"));
 					i.setStock(rs.getDouble("stock"));

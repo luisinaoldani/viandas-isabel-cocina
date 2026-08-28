@@ -18,8 +18,8 @@ public class IngredienteViandaService {
         return dataIngredienteVianda.getAll();
     }
 
-    public IngredienteVianda buscarPorId(String codigoIngrediente, int idVianda) {
-        return dataIngredienteVianda.getById(codigoIngrediente, idVianda);
+    public IngredienteVianda buscarPorId(int idIngrediente, int idVianda) {
+        return dataIngredienteVianda.getById(idIngrediente, idVianda);
     }
 
     public LinkedList<Vianda> listarViandas() {
@@ -30,23 +30,23 @@ public class IngredienteViandaService {
         return dataIngrediente.getAll();
     }
 
-    public void guardar(String codigoIngrediente, int idVianda, Double cantidad) {
+    public void guardar(int idIngrediente, int idVianda, Double cantidad) {
 
-        IngredienteVianda existente = dataIngredienteVianda.getById(codigoIngrediente, idVianda);
+        IngredienteVianda existente = dataIngredienteVianda.getById(idIngrediente, idVianda);
 
         if (existente == null) {
 
             Vianda vianda = dataVianda.getById(idVianda);
-            Ingrediente ingrediente = dataIngrediente.getById(codigoIngrediente);
+            Ingrediente ingrediente = dataIngrediente.getById(idIngrediente);
             IngredienteVianda nuevo = new IngredienteVianda(vianda, ingrediente, cantidad);
             dataIngredienteVianda.setIngredienteVianda(nuevo);
 
         } else {
-            dataIngredienteVianda.update(codigoIngrediente, idVianda, cantidad);
+            dataIngredienteVianda.update(idIngrediente, idVianda, cantidad);
         }
     }
 
-    public void eliminar(String codigoIngrediente, int idVianda) {
-        dataIngredienteVianda.delete(codigoIngrediente, idVianda);
+    public void eliminar(int idIngrediente, int idVianda) {
+        dataIngredienteVianda.delete(idIngrediente, idVianda);
     }
 }

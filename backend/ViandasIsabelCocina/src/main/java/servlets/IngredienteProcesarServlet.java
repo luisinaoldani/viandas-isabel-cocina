@@ -20,17 +20,18 @@ public class IngredienteProcesarServlet extends HttpServlet {
 
         if (accion != null && accion.equals("eliminar")) {
 
-            String codigo = request.getParameter("codigo");
-            service.eliminar(codigo);
+        	int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
+            service.eliminar(idIngrediente);
 
         } else {
-
+        	
+        	int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
             String codigo = request.getParameter("codigo");
             String nombre = request.getParameter("nombre");
             Double stock = Double.parseDouble(request.getParameter("stock"));
             String unidadMedida = request.getParameter("unidadMedida");
 
-            service.guardar(codigo, nombre, stock, unidadMedida);
+            service.guardar(idIngrediente, codigo, nombre, stock, unidadMedida);
         }
 
         response.sendRedirect("ingrediente");

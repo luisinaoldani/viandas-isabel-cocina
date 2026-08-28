@@ -13,17 +13,18 @@ public class IngredienteService {
 		return dataIngrediente.getAll();
 	}
 
-	public Ingrediente buscarPorCodigo(String codigo) {
-		return dataIngrediente.getById(codigo);
+	public Ingrediente buscarPorId(int idIngrediente) {
+		return dataIngrediente.getById(idIngrediente);
 	}
 	
-	public void guardar(String codigo, String nombre, Double stock, String unidadMedida) {
-		Ingrediente existente = dataIngrediente.getById(codigo);
+	public void guardar(int idIngrediente, String codigo, String nombre, Double stock, String unidadMedida) {
+		Ingrediente existente = dataIngrediente.getById(idIngrediente);
 		
 		if (existente == null) {
 			Ingrediente nuevo = new Ingrediente(codigo, nombre, stock, unidadMedida);
 			dataIngrediente.setIngrediente(nuevo);
 		} else {
+			existente.setCodigo(codigo);
 			existente.setNombre(nombre);
 			existente.setStock(stock);
 			existente.setUnidadMedida(unidadMedida);
@@ -31,8 +32,8 @@ public class IngredienteService {
 		}
 	}
 	
-	public void eliminar(String codigo) {
-		Ingrediente ingrediente = dataIngrediente.getById(codigo);
+	public void eliminar(int idIngrediente) {
+		Ingrediente ingrediente = dataIngrediente.getById(idIngrediente);
 		dataIngrediente.deleteByCodigo(ingrediente);
 	}
 }

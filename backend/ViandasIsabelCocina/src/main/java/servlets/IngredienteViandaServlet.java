@@ -38,10 +38,10 @@ public class IngredienteViandaServlet extends HttpServlet {
 
         } else if (action.equals("edit")) {
 
-            String codigoIngrediente = request.getParameter("codigoIngrediente");
+        	int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
             int idVianda = Integer.parseInt(request.getParameter("idVianda"));
 
-            IngredienteVianda ingredienteVianda = service.buscarPorId(codigoIngrediente, idVianda);
+            IngredienteVianda ingredienteVianda = service.buscarPorId(idIngrediente, idVianda);
             request.setAttribute("ingredienteVianda", ingredienteVianda);
 
             LinkedList<Vianda> listaViandas = service.listarViandas();

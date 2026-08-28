@@ -14,7 +14,8 @@
   <a href="ingrediente?action=new" class="btn btn-primary">Nuevo ingrediente</a>
   <table class = "table table-striped">
   <tr>
-     <th>Codigo</th>
+ 	 <th>ID</th>
+     <th>Código</th>
      <th>Nombre</th>
      <th>Stock</th>
      <th>Unidad</th>
@@ -22,17 +23,18 @@
   </tr>
   <% for (Ingrediente ing : lista) { %>
   <tr>
+  <td><%= ing.getIdIngrediente() %></td>
   <td><%= ing.getCodigo() %></td>
   <td><%= ing.getNombre() %></td>
   <td><%= ing.getStock() %></td>
   <td><%= ing.getUnidadMedida() %></td>
   <td>
   
-  <a href ="ingrediente?action=edit&codigo=<%= ing.getCodigo() %>" class ="btn btn-warning btn-sm">Editar</a>
+  <a href ="ingrediente?action=edit&idIngrediente=<%= ing.getIdIngrediente() %>" class ="btn btn-warning btn-sm">Editar</a>
   
   <form action ="IngredienteProcesar" method="post" style="display:inline">
     <input type="hidden" name="accion" value="eliminar">
-    <input type="hidden" name="codigo" value="<%= ing.getCodigo() %>">
+    <input type="hidden" name="idIngrediente" value="<%= ing.getIdIngrediente() %>">
     <button type ="submit" class="btn btn-danger btn-sm">Eliminar</button>
    </form>
    

@@ -27,6 +27,7 @@
     <input type="text" class="form-control" name="unidadMedida" value="<%= ing != null ? ing.getUnidadMedida() : "" %>">
 
     <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="ingrediente" class="btn btn-secondary">Cancelar</a>
     </form>
 </body>
 </html>

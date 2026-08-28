@@ -21,16 +21,16 @@ public class IngredienteViandaProcesar extends HttpServlet {
         if (accion != null && accion.equals("eliminar")) {
 
             int idVianda = Integer.parseInt(request.getParameter("idVianda"));
-            String codigoIngrediente = request.getParameter("codigoIngrediente");
-            service.eliminar(codigoIngrediente, idVianda);
+            int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
+            service.eliminar(idIngrediente, idVianda);
 
         } else {
 
-            String codigoIngrediente = request.getParameter("codigoIngrediente");
+        	int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
             int idVianda = Integer.parseInt(request.getParameter("idVianda"));
             Double cantidad = Double.parseDouble(request.getParameter("cantidad"));
 
-            service.guardar(codigoIngrediente, idVianda, cantidad);
+            service.guardar(idIngrediente, idVianda, cantidad);
         }
 
         response.sendRedirect("ingredienteVianda");

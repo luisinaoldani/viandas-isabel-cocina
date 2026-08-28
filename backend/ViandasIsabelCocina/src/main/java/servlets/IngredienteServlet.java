@@ -32,8 +32,8 @@ public class IngredienteServlet extends HttpServlet {
 
         } else if (action.equals("edit")) {
 
-            String codigo = request.getParameter("codigo");
-            Ingrediente ingrediente = service.buscarPorCodigo(codigo);
+            int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
+            Ingrediente ingrediente = service.buscarPorId(idIngrediente);
             request.setAttribute("ingrediente", ingrediente);
             request.getRequestDispatcher("/WEB-INF/jsp/ingrediente/formulario.jsp").forward(request, response);
         }

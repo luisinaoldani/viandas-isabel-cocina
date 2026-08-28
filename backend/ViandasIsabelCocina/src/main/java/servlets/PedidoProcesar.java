@@ -20,8 +20,35 @@ public class PedidoProcesar extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
+		String accion = request.getParameter("accion");
 
+		if (accion != null && accion.equals("cancelar")) {
+
+			int numero = Integer.parseInt(request.getParameter("numero"));
+			service.cancelarPedido(numero);
+			response.sendRedirect("pedido");
+
+		} else if (accion != null && accion.equals("actualizar")) {
+
+			int numero = Integer.parseInt(request.getParameter("numero"));
+			LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
+			Map<Integer, Integer> cantidades = leerCantidades(request);
+
+			service.actualizarPedido(numero, fechaEntrega, cantidades);
+			response.sendRedirect("pedido?action=detalle&numero=" + numero);
+
+		} else {
+
+			LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
+			Map<Integer, Integer> cantidades = leerCantidades(request);
+
+			Pedido pedido = service.crearPedido(fechaEntrega, cantidades);
+			request.setAttribute("pedido", pedido);
+			request.getRequestDispatcher("/WEB-INF/jsp/pedido/confirmacion.jsp").forward(request, response);
+		}
+	}
+
+	private Map<Integer, Integer> leerCantidades(HttpServletRequest request) {
 		Map<Integer, Integer> cantidades = new HashMap<>();
 		for (String nombreParametro : request.getParameterMap().keySet()) {
 			if (nombreParametro.startsWith("cantidad_")) {
@@ -33,10 +60,7 @@ public class PedidoProcesar extends HttpServlet {
 				}
 			}
 		}
-
-		Pedido pedido = service.crearPedido(fechaEntrega, cantidades);
-		request.setAttribute("pedido", pedido);
-		request.getRequestDispatcher("/WEB-INF/jsp/pedido/confirmacion.jsp").forward(request, response);
+		return cantidades;
 	}
 
 }

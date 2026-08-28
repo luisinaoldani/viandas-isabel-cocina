@@ -1,11 +1,18 @@
 package entities;
 
 public class Ingrediente {
+	private int idIngrediente;
 	private String codigo;
 	private String nombre;
 	private Double stock;
 	private String unidadMedida;
 	
+	public int getIdIngrediente() {
+		return idIngrediente;
+	}
+	public void setIdIngrediente(int idIngrediente) {
+		this.idIngrediente = idIngrediente;
+	}
 	public String getCodigo() {
 		return codigo;
 	}

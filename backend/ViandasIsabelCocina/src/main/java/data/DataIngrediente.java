@@ -16,11 +16,12 @@ public class DataIngrediente {
 		
 		try {
 			stmt = DbConnector.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery("SELECT codigo, nombre, stock, unidadMedida FROM ingrediente");
+			rs = stmt.executeQuery("SELECT idIngrediente, codigo, nombre, stock, unidadMedida FROM ingrediente");
 			
 			if(rs != null) {
 				while(rs.next()) {
 					Ingrediente i = new Ingrediente();
+					i.setIdIngrediente(rs.getInt("idIngrediente"));
 					i.setCodigo(rs.getString("codigo"));
 					i.setNombre(rs.getString("nombre"));
 					i.setStock(rs.getDouble("stock"));
@@ -49,18 +50,19 @@ public class DataIngrediente {
 	}
 
 
-public Ingrediente getById( String codigo ) {
+public Ingrediente getById( int idIngrediente ) {
 	Ingrediente i = null;
 	PreparedStatement stmt = null;
 	ResultSet rs = null;
 	
 	try {
-		stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT codigo, nombre, stock, unidadMedida FROM ingrediente where codigo = ? ");
-		stmt.setString(1, codigo);
+		stmt = DbConnector.getInstancia().getConn().prepareStatement("SELECT idIngrediente, codigo, nombre, stock, unidadMedida FROM ingrediente where id = ? ");
+		stmt.setInt(1, idIngrediente);
 		rs = stmt.executeQuery();
 		
 		if(rs != null && rs.next()) {
 			i = new Ingrediente();
+			i.setIdIngrediente(rs.getInt("idIngrediente"));
 			i.setCodigo(rs.getString("codigo"));
 			i.setStock(rs.getDouble("stock"));
 			i.setNombre(rs.getString("nombre"));
@@ -98,8 +100,8 @@ public Ingrediente setIngrediente(Ingrediente ingrediente) {
 		
 		rs= stmt.getGeneratedKeys();
 		if (rs != null && rs.next()) {
-			String nuevoCod =rs.getString(1);
-			ingrediente.setCodigo(nuevoCod);
+			int nuevoId = rs.getInt(1);
+			ingrediente.setIdIngrediente(nuevoId);
 		}
 	} catch (SQLException e) {
 		e.printStackTrace();
@@ -120,8 +122,8 @@ public Ingrediente setIngrediente(Ingrediente ingrediente) {
 public void deleteByCodigo(Ingrediente ingrediente) {
 	PreparedStatement stmtDeleteIngrediente = null;
 	try {
-		stmtDeleteIngrediente = DbConnector.getInstancia().getConn().prepareStatement("DELETE FROM ingrediente WHERE codigo = ?");
-		stmtDeleteIngrediente.setString(1, ingrediente.getCodigo());
+		stmtDeleteIngrediente = DbConnector.getInstancia().getConn().prepareStatement("DELETE FROM ingrediente WHERE idIngrediente = ?");
+		stmtDeleteIngrediente.setInt(1, ingrediente.getIdIngrediente());
 		stmtDeleteIngrediente.executeUpdate();
 		
 	} catch (SQLException e) {
@@ -138,16 +140,18 @@ public void deleteByCodigo(Ingrediente ingrediente) {
 
 public void updateByCodigo(Ingrediente ingrediente) {
 	PreparedStatement stmtUpdate = null;
-	String sentencia = "UPDATE ingrediente SET nombre = ?,"
+	String sentencia = "UPDATE ingrediente SET codigo = ?,"
+			+ "nombre = ?,"
 			+ "stock = ?,"
-			+ "unidadMedida = ? "
-			+ "WHERE codigo = ? ";
+			+ "unidadMedida = ?"
+			+ "WHERE idIngrediente = ?";
 	 try {
 	        stmtUpdate = DbConnector.getInstancia().getConn().prepareStatement(sentencia);
-	        stmtUpdate.setString(1, ingrediente.getNombre());
-	        stmtUpdate.setDouble(2, ingrediente.getStock());
-	        stmtUpdate.setString(3, ingrediente.getUnidadMedida());
-	        stmtUpdate.setString(4, ingrediente.getCodigo());
+	        stmtUpdate.setString(1, ingrediente.getCodigo());
+	        stmtUpdate.setString(2, ingrediente.getNombre());
+	        stmtUpdate.setDouble(3, ingrediente.getStock());
+	        stmtUpdate.setString(4, ingrediente.getUnidadMedida());
+	        stmtUpdate.setInt(5, ingrediente.getIdIngrediente());
 	        
 	        stmtUpdate.executeUpdate();
 	        
