@@ -19,23 +19,36 @@ public class IngredienteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String action = request.getParameter("action");
+        String error = request.getParameter("error");
 
-        if (action == null) {
+        try {
 
-            LinkedList<Ingrediente> lista = service.listar();
-            request.setAttribute("listaIngredientes", lista);
+            if (action == null) {
+
+                LinkedList<Ingrediente> lista = service.listar();
+                request.setAttribute("listaIngredientes", lista);
+                if (error != null) {
+                    request.setAttribute("error", error);
+                }
+                request.getRequestDispatcher("/WEB-INF/jsp/ingrediente/listar.jsp").forward(request, response);
+
+            } else if (action.equals("new")) {
+
+                request.getRequestDispatcher("/WEB-INF/jsp/ingrediente/formulario.jsp").forward(request, response);
+
+            } else if (action.equals("edit")) {
+
+                int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
+                Ingrediente ingrediente = service.buscarPorId(idIngrediente);
+                request.setAttribute("ingrediente", ingrediente);
+                request.getRequestDispatcher("/WEB-INF/jsp/ingrediente/formulario.jsp").forward(request, response);
+            }
+
+        } catch (RuntimeException e) {
+
+            request.setAttribute("error", e.getMessage());
+            request.setAttribute("listaIngredientes", new LinkedList<Ingrediente>());
             request.getRequestDispatcher("/WEB-INF/jsp/ingrediente/listar.jsp").forward(request, response);
-
-        } else if (action.equals("new")) {
-
-            request.getRequestDispatcher("/WEB-INF/jsp/ingrediente/formulario.jsp").forward(request, response);
-
-        } else if (action.equals("edit")) {
-
-            String codigo = request.getParameter("codigo");
-            Ingrediente ingrediente = service.buscarPorCodigo(codigo);
-            request.setAttribute("ingrediente", ingrediente);
-            request.getRequestDispatcher("/WEB-INF/jsp/ingrediente/formulario.jsp").forward(request, response);
         }
     }
 }

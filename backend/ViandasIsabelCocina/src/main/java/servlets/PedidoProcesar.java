@@ -3,6 +3,9 @@ package servlets;
 import entities.Pedido;
 import logic.PedidoService;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +23,61 @@ public class PedidoProcesar extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
+		String accion = request.getParameter("accion");
 
+		try {
+
+			if (accion != null && accion.equals("cancelar")) {
+
+				int numero = Integer.parseInt(request.getParameter("numero"));
+				service.cancelarPedido(numero);
+				response.sendRedirect("pedido");
+
+			} else if (accion != null && accion.equals("actualizar")) {
+
+				int numero = Integer.parseInt(request.getParameter("numero"));
+
+				try {
+					LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
+					Map<Integer, Integer> cantidades = leerCantidades(request);
+
+					service.actualizarPedido(numero, fechaEntrega, cantidades);
+					response.sendRedirect("pedido?action=detalle&numero=" + numero);
+
+				} catch (RuntimeException e) {
+					response.sendRedirect("pedido?action=edit&numero=" + numero + "&error=" + encodar(e.getMessage()));
+				}
+
+			} else {
+
+				try {
+					LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
+					Map<Integer, Integer> cantidades = leerCantidades(request);
+
+					Pedido pedido = service.crearPedido(fechaEntrega, cantidades);
+					request.setAttribute("pedido", pedido);
+					request.getRequestDispatcher("/WEB-INF/jsp/pedido/confirmacion.jsp").forward(request, response);
+
+				} catch (RuntimeException e) {
+					response.sendRedirect("pedido?action=new&error=" + encodar(e.getMessage()));
+				}
+			}
+
+		} catch (RuntimeException e) {
+
+			response.sendRedirect("pedido?error=" + encodar(e.getMessage()));
+		}
+	}
+
+	private String encodar(String mensaje) {
+		try {
+			return URLEncoder.encode(mensaje, StandardCharsets.UTF_8.toString());
+		} catch (UnsupportedEncodingException e) {
+			return "Ocurrio un error inesperado.";
+		}
+	}
+
+	private Map<Integer, Integer> leerCantidades(HttpServletRequest request) {
 		Map<Integer, Integer> cantidades = new HashMap<>();
 		for (String nombreParametro : request.getParameterMap().keySet()) {
 			if (nombreParametro.startsWith("cantidad_")) {
@@ -33,10 +89,7 @@ public class PedidoProcesar extends HttpServlet {
 				}
 			}
 		}
-
-		Pedido pedido = service.crearPedido(fechaEntrega, cantidades);
-		request.setAttribute("pedido", pedido);
-		request.getRequestDispatcher("/WEB-INF/jsp/pedido/confirmacion.jsp").forward(request, response);
+		return cantidades;
 	}
 
 }

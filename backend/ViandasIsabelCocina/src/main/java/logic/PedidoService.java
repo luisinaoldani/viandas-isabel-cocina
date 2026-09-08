@@ -22,6 +22,14 @@ public class PedidoService {
 		return activas;
 	}
 
+	public LinkedList<Pedido> listar() {
+		return dataPedido.getAll();
+	}
+
+	public Pedido buscarPorId(int numero) {
+		return dataPedido.getById(numero);
+	}
+
 	public Pedido crearPedido(LocalDate fechaEntrega, Map<Integer, Integer> cantidadesPorVianda) {
 
 		Pedido pedido = new Pedido(fechaEntrega);
@@ -41,6 +49,45 @@ public class PedidoService {
 		}
 
 		return dataPedido.setPedido(pedido);
+	}
+
+	public Pedido actualizarPedido(int numero, LocalDate fechaEntrega, Map<Integer, Integer> cantidadesPorVianda) {
+
+		Pedido pedido = dataPedido.getById(numero);
+
+		if (pedido == null) {
+			throw new IllegalArgumentException("El pedido no existe.");
+		}
+		if (!"PENDIENTE".equals(pedido.getEstado())) {
+			throw new IllegalArgumentException("Solo se pueden modificar pedidos PENDIENTES.");
+		}
+		if (fechaEntrega == null) {
+			throw new IllegalArgumentException("La fecha de entrega es obligatoria");
+		}
+
+		pedido.setFechaEntrega(fechaEntrega);
+		pedido.setDetalles(new LinkedList<>());
+
+		for (Map.Entry<Integer, Integer> entry : cantidadesPorVianda.entrySet()) {
+			int idVianda = entry.getKey();
+			int cantidad = entry.getValue();
+
+			if (cantidad > 0) {
+				Vianda vianda = viandaService.buscarPorId(idVianda);
+				pedido.agregarDetalle(vianda, cantidad);
+			}
+		}
+
+		if (pedido.getDetalles().isEmpty()) {
+			throw new IllegalArgumentException("Debe seleccionar al menos una vianda con cantidad mayor a 0.");
+		}
+
+		dataPedido.update(pedido);
+		return pedido;
+	}
+
+	public void cancelarPedido(int numero) {
+		dataPedido.cancelar(numero);
 	}
 
 }

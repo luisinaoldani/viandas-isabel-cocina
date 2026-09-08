@@ -21,35 +21,48 @@ public class IngredienteViandaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String action = request.getParameter("action");
+        String error = request.getParameter("error");
 
-        if (action == null) {
+        try {
 
-            LinkedList<IngredienteVianda> lista = service.listar();
-            request.setAttribute("listaIngredienteVianda", lista);
+            if (action == null) {
+
+                LinkedList<IngredienteVianda> lista = service.listar();
+                request.setAttribute("listaIngredienteVianda", lista);
+                if (error != null) {
+                    request.setAttribute("error", error);
+                }
+                request.getRequestDispatcher("/WEB-INF/jsp/ingredienteVianda/listar.jsp").forward(request, response);
+
+            } else if (action.equals("new")) {
+
+                LinkedList<Vianda> listaViandas = service.listarViandas();
+                LinkedList<Ingrediente> listaIngredientes = service.listarIngredientes();
+                request.setAttribute("listaViandas", listaViandas);
+                request.setAttribute("listaIngredientes", listaIngredientes);
+                request.getRequestDispatcher("/WEB-INF/jsp/ingredienteVianda/formulario.jsp").forward(request, response);
+
+            } else if (action.equals("edit")) {
+
+                int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
+                int idVianda = Integer.parseInt(request.getParameter("idVianda"));
+
+                IngredienteVianda ingredienteVianda = service.buscarPorId(idIngrediente, idVianda);
+                request.setAttribute("ingredienteVianda", ingredienteVianda);
+
+                LinkedList<Vianda> listaViandas = service.listarViandas();
+                LinkedList<Ingrediente> listaIngredientes = service.listarIngredientes();
+                request.setAttribute("listaViandas", listaViandas);
+                request.setAttribute("listaIngredientes", listaIngredientes);
+
+                request.getRequestDispatcher("/WEB-INF/jsp/ingredienteVianda/formulario.jsp").forward(request, response);
+            }
+
+        } catch (RuntimeException e) {
+
+            request.setAttribute("error", e.getMessage());
+            request.setAttribute("listaIngredienteVianda", new LinkedList<IngredienteVianda>());
             request.getRequestDispatcher("/WEB-INF/jsp/ingredienteVianda/listar.jsp").forward(request, response);
-
-        } else if (action.equals("new")) {
-
-            LinkedList<Vianda> listaViandas = service.listarViandas();
-            LinkedList<Ingrediente> listaIngredientes = service.listarIngredientes();
-            request.setAttribute("listaViandas", listaViandas);
-            request.setAttribute("listaIngredientes", listaIngredientes);
-            request.getRequestDispatcher("/WEB-INF/jsp/ingredienteVianda/formulario.jsp").forward(request, response);
-
-        } else if (action.equals("edit")) {
-
-            String codigoIngrediente = request.getParameter("codigoIngrediente");
-            int idVianda = Integer.parseInt(request.getParameter("idVianda"));
-
-            IngredienteVianda ingredienteVianda = service.buscarPorId(codigoIngrediente, idVianda);
-            request.setAttribute("ingredienteVianda", ingredienteVianda);
-
-            LinkedList<Vianda> listaViandas = service.listarViandas();
-            LinkedList<Ingrediente> listaIngredientes = service.listarIngredientes();
-            request.setAttribute("listaViandas", listaViandas);
-            request.setAttribute("listaIngredientes", listaIngredientes);
-
-            request.getRequestDispatcher("/WEB-INF/jsp/ingredienteVianda/formulario.jsp").forward(request, response);
         }
     }
 }

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="entities.Vianda" %>
 
@@ -11,7 +12,11 @@
 </head>
 <body>
  <% LinkedList <Vianda> lista = (LinkedList<Vianda>) request.getAttribute("listaViandas"); %>
- 
+ <% String error = (String) request.getAttribute("error"); %>
+ <% if (error != null) { %>
+    <div class="alert alert-danger" role="alert"><%= error %></div>
+ <% } %>
+
  <a href ="vianda?action=new" class ="btn btn-primary">Nueva Vianda</a>
  <table class = "table table-striped">
 <tr>
@@ -38,7 +43,7 @@
   <a href="vianda?action=detalle&idVianda=<%= via.getIdVianda() %>" class="btn btn-info btn-sm">Ver detalle</a>
    
      <form action="ViandaProcesar" method="post" style="display:inline"
-          onsubmit="return confirm('¿Estás seguro que querés eliminar la vianda &quot;<%= via.getNombre() %>&quot;?');">
+          onsubmit="return confirm('ï¿½Estï¿½s seguro que querï¿½s eliminar la vianda &quot;<%= via.getNombre() %>&quot;?');">
     <input type="hidden" name="accion" value="eliminar">
     <input type="hidden" name="idVianda" value="<%= via.getIdVianda() %>">
     <button type ="submit" class="btn btn-danger btn-sm">Eliminar</button>

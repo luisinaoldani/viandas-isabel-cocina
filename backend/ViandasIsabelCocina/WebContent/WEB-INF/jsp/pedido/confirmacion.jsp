@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="entities.Pedido" %>
 <%@ page import="entities.DetallePedido" %>
 
@@ -15,7 +16,7 @@
 <% Pedido pedido = (Pedido) request.getAttribute("pedido"); %>
 
 <div class="alert alert-success">
-    Pedido N&deg; <%= pedido.getNumero() %> confirmado con &eacute;xito.
+    Pedido N° <%= pedido.getNumero() %> confirmado con éxito.
 </div>
 
 <p>Fecha de entrega: <%= pedido.getFechaEntrega() %></p>

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="entities.IngredienteVianda" %>
 <%@ page import="entities.Vianda" %>
@@ -13,6 +14,10 @@
 </head>
 <body>
    <% LinkedList<IngredienteVianda> lista = (LinkedList<IngredienteVianda>) request.getAttribute("listaIngredienteVianda"); %>
+  <% String error = (String) request.getAttribute("error"); %>
+  <% if (error != null) { %>
+    <div class="alert alert-danger" role="alert"><%= error %></div>
+  <% } %>
   <a href="ingredienteVianda?action=new" class="btn btn-primary">Nuevo Ingrediente_Vianda</a>
   <table class = "table table-striped">
   <tr>

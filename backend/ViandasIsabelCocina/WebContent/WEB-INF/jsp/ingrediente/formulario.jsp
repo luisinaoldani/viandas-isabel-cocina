@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="entities.Ingrediente" %>
 <%@ page import="java.util.LinkedList" %>
 
@@ -17,7 +18,7 @@
     <label class="form-label">Nombre:</label>
     <input type="text" class="form-control" name="nombre" value="<%= ing != null ? ing.getNombre() : "" %>">
 
-    <label class="form-label">Código:</label>
+    <label class="form-label">CÃ³digo:</label>
     <input type="text" class="form-control" name="codigo" value="<%= ing != null ? ing.getCodigo() : "" %>">
 
     <label class="form-label">Stock:</label>
@@ -27,6 +28,7 @@
     <input type="text" class="form-control" name="unidadMedida" value="<%= ing != null ? ing.getUnidadMedida() : "" %>">
 
     <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="ingrediente" class="btn btn-secondary">Cancelar</a>
     </form>
 </body>
 </html>

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="entities.Vianda" %>
 <%@ page import="java.util.LinkedList" %>
 
@@ -19,7 +20,7 @@
   <label class="form-label">Nombre:</label>
     <input type="text" class="form-control" name="nombre" value="<%= (via != null) ? via.getNombre() : "" %>">
     
-    <label class="form-label">Descripcion:</label>
+    <label class="form-label">DescripciÃ³n:</label>
     <input type="text" class="form-control" name="descripcion" value="<%= (via != null) ? via.getDescripcion() : "" %>">
     
      <label class="form-label">Precio Unitario:</label>
@@ -30,11 +31,12 @@
     
         <label class="form-label">Activa:</label>
 <select class="form-control" name="activa">
-    <option value="true" <%= (via != null && via.isActiva()) ? "selected" : "" %>>Sí</option>
+    <option value="true" <%= (via != null && via.isActiva()) ? "selected" : "" %>>Sï¿½</option>
     <option value="false" <%= (via != null && !via.isActiva()) ? "selected" : "" %>>No</option>
 </select>
 
  <button type="submit" class="btn btn-primary">Guardar</button>
+ <a href="vianda" class="btn btn-secondary">Cancelar</a>
   </form>
 
 </body>

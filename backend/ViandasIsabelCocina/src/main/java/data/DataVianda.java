@@ -12,7 +12,7 @@ public class DataVianda {
 	public LinkedList<Vianda> getAll(){
 		Statement stmt = null;
 		ResultSet rs = null;
-		LinkedList<Vianda> vianda = new LinkedList<>();
+		LinkedList<Vianda> viandas = new LinkedList<>();
 		
 		try {
 			stmt = DbConnector.getInstancia().getConn().createStatement();
@@ -28,14 +28,13 @@ public class DataVianda {
 					v.setTipo(rs.getString("tipo"));
 					v.setActiva(rs.getBoolean("activa"));
 					
-					//this.addReceta(v);
 					
-					vianda.add(v);
+					viandas.add(v);
 				}
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo obtener el listado de viandas.", e);
 			
 		} finally {
 			try {
@@ -48,7 +47,7 @@ public class DataVianda {
 			}
 		}
 		
-		return vianda;
+		return viandas;
 	}
 
 	
@@ -72,11 +71,10 @@ public class DataVianda {
 				v.setTipo(rs.getString("tipo"));
 				v.setActiva(rs.getBoolean("activa"));
 				
-				//this.addReceta(v);
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo obtener la vianda solicitada.", e);
 			
 		} finally {
 			try {
@@ -113,11 +111,10 @@ public class DataVianda {
 	            int nuevoId = rs.getInt(1);
 	            vianda.setIdVianda(nuevoId);
 	            
-	            //this.saveReceta(vianda);
 	        }
 
 	    } catch (SQLException e) {
-	        e.printStackTrace();
+	        throw new RuntimeException("No se pudo guardar la vianda.", e);
 	        
 	    } finally {
 	        try {
@@ -143,10 +140,9 @@ public class DataVianda {
 	        stmtDeleteVianda.executeUpdate();
 
 	    } catch (SQLException e) {
-	        e.printStackTrace();
+	        throw new RuntimeException("No se pudo eliminar la vianda.", e);
 	    } finally {
 	        try {
-	            //if (stmtDeleteReceta != null) { stmtDeleteReceta.close(); }
 	            if (stmtDeleteVianda != null) { stmtDeleteVianda.close(); }
 	            DbConnector.getInstancia().releaseConn();
 	        } catch (SQLException e) {
@@ -157,12 +153,12 @@ public class DataVianda {
 	
 	public void updateById(Vianda vianda) {
 		PreparedStatement stmtUpdate = null;
-		PreparedStatement stmtDelete = null;
+		
 		String sentencia = "UPDATE vianda SET nombre = ?,"
 				+ "descripcion = ?,"
 				+ "precioUnitario = ?,"
 				+ "tipo = ?,"
-				+ "activa = ?, "
+				+ "activa = ? "
 				+ "WHERE idVianda = ? ";
 		 try {
 		        stmtUpdate = DbConnector.getInstancia().getConn().prepareStatement(sentencia);
@@ -177,11 +173,10 @@ public class DataVianda {
 		        
 		        
 		    } catch (SQLException e) {
-		        e.printStackTrace();
+		        throw new RuntimeException("No se pudo actualizar la vianda.", e);
 		    } finally {
 		        try {
 		            if (stmtUpdate != null) { stmtUpdate.close(); }
-		            if (stmtDelete != null) { stmtDelete.close(); }
 		            DbConnector.getInstancia().releaseConn();
 		        } catch (SQLException e) {
 		            e.printStackTrace();
@@ -189,6 +184,5 @@ public class DataVianda {
 		    }
 		
 	}
-
-
+	
 }

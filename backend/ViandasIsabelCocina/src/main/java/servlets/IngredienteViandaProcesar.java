@@ -2,6 +2,9 @@ package servlets;
 
 import logic.IngredienteViandaService;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,21 +21,37 @@ public class IngredienteViandaProcesar extends HttpServlet {
 
         String accion = request.getParameter("accion");
 
-        if (accion != null && accion.equals("eliminar")) {
+        try {
 
-            int idVianda = Integer.parseInt(request.getParameter("idVianda"));
-            String codigoIngrediente = request.getParameter("codigoIngrediente");
-            service.eliminar(codigoIngrediente, idVianda);
+            if (accion != null && accion.equals("eliminar")) {
 
-        } else {
+                int idVianda = Integer.parseInt(request.getParameter("idVianda"));
+                int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
+                service.eliminar(idIngrediente, idVianda);
 
-            String codigoIngrediente = request.getParameter("codigoIngrediente");
-            int idVianda = Integer.parseInt(request.getParameter("idVianda"));
-            Double cantidad = Double.parseDouble(request.getParameter("cantidad"));
+            } else {
 
-            service.guardar(codigoIngrediente, idVianda, cantidad);
+                int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
+                int idVianda = Integer.parseInt(request.getParameter("idVianda"));
+                Double cantidad = Double.parseDouble(request.getParameter("cantidad"));
+
+                service.guardar(idIngrediente, idVianda, cantidad);
+            }
+
+            response.sendRedirect("ingredienteVianda");
+
+        } catch (RuntimeException e) {
+
+            response.sendRedirect("ingredienteVianda?error=" + encodar(e.getMessage()));
         }
+    }
 
-        response.sendRedirect("ingredienteVianda");
+    private String encodar(String mensaje) {
+        try {
+            return URLEncoder.encode(mensaje, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return "Ocurrio un error inesperado.";
+        }
     }
 }
+
