@@ -19,31 +19,44 @@ public class ViandaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String action = request.getParameter("action");
+        String error = request.getParameter("error");
 
-        if (action == null) {
+        try {
 
-            LinkedList<Vianda> lista = service.listar();
-            request.setAttribute("listaViandas", lista);
+            if (action == null) {
+
+                LinkedList<Vianda> lista = service.listar();
+                request.setAttribute("listaViandas", lista);
+                if (error != null) {
+                    request.setAttribute("error", error);
+                }
+                request.getRequestDispatcher("/WEB-INF/jsp/vianda/listar.jsp").forward(request, response);
+
+            } else if (action.equals("new")) {
+
+                request.getRequestDispatcher("/WEB-INF/jsp/vianda/formulario.jsp").forward(request, response);
+
+            } else if (action.equals("edit")) {
+
+                int idVianda = Integer.parseInt(request.getParameter("idVianda"));
+                Vianda vianda = service.buscarPorId(idVianda);
+                request.setAttribute("vianda", vianda);
+                request.getRequestDispatcher("/WEB-INF/jsp/vianda/formulario.jsp").forward(request, response);
+
+            } else if (action.equals("detalle")) {
+
+                int idVianda = Integer.parseInt(request.getParameter("idVianda"));
+                Vianda vianda = service.detalle(idVianda);
+                request.setAttribute("vianda", vianda);
+                request.getRequestDispatcher("/WEB-INF/jsp/vianda/detalle.jsp").forward(request, response);
+
+            }
+
+        } catch (RuntimeException e) {
+
+            request.setAttribute("error", e.getMessage());
+            request.setAttribute("listaViandas", new LinkedList<Vianda>());
             request.getRequestDispatcher("/WEB-INF/jsp/vianda/listar.jsp").forward(request, response);
-
-        } else if (action.equals("new")) {
-
-            request.getRequestDispatcher("/WEB-INF/jsp/vianda/formulario.jsp").forward(request, response);
-
-        } else if (action.equals("edit")) {
-
-            int idVianda = Integer.parseInt(request.getParameter("idVianda"));
-            Vianda vianda = service.buscarPorId(idVianda);
-            request.setAttribute("vianda", vianda);
-            request.getRequestDispatcher("/WEB-INF/jsp/vianda/formulario.jsp").forward(request, response);
-            
-        } else if (action.equals("detalle")) {
-        	
-        	int idVianda = Integer.parseInt(request.getParameter("idVianda"));
-            Vianda vianda = service.detalle(idVianda);
-            request.setAttribute("vianda", vianda);
-            request.getRequestDispatcher("/WEB-INF/jsp/vianda/detalle.jsp").forward(request, response);
-            
         }
     }
 }

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="entities.Pedido" %>
 
@@ -13,6 +14,10 @@
 <div class="container mt-4">
 
 <% LinkedList<Pedido> listaPedidos = (LinkedList<Pedido>) request.getAttribute("listaPedidos"); %>
+<% String error = (String) request.getAttribute("error"); %>
+<% if (error != null) { %>
+    <div class="alert alert-danger" role="alert"><%= error %></div>
+<% } %>
 
 <a href="pedido?action=new" class="btn btn-primary mb-3">Nuevo Pedido</a>
 
@@ -51,3 +56,4 @@
 </div>
 </body>
 </html>
+

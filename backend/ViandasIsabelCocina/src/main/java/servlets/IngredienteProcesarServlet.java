@@ -2,6 +2,9 @@ package servlets;
 
 import logic.IngredienteService;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,22 +21,37 @@ public class IngredienteProcesarServlet extends HttpServlet {
 
         String accion = request.getParameter("accion");
 
-        if (accion != null && accion.equals("eliminar")) {
+        try {
 
-        	int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
-            service.eliminar(idIngrediente);
+            if (accion != null && accion.equals("eliminar")) {
 
-        } else {
-        	
-        	int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
-            String codigo = request.getParameter("codigo");
-            String nombre = request.getParameter("nombre");
-            Double stock = Double.parseDouble(request.getParameter("stock"));
-            String unidadMedida = request.getParameter("unidadMedida");
+                int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
+                service.eliminar(idIngrediente);
 
-            service.guardar(idIngrediente, codigo, nombre, stock, unidadMedida);
+            } else {
+
+                int idIngrediente = Integer.parseInt(request.getParameter("idIngrediente"));
+                String codigo = request.getParameter("codigo");
+                String nombre = request.getParameter("nombre");
+                Double stock = Double.parseDouble(request.getParameter("stock"));
+                String unidadMedida = request.getParameter("unidadMedida");
+
+                service.guardar(idIngrediente, codigo, nombre, stock, unidadMedida);
+            }
+
+            response.sendRedirect("ingrediente");
+
+        } catch (RuntimeException e) {
+
+            response.sendRedirect("ingrediente?error=" + encodar(e.getMessage()));
         }
+    }
 
-        response.sendRedirect("ingrediente");
+    private String encodar(String mensaje) {
+        try {
+            return URLEncoder.encode(mensaje, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return "Ocurrio un error inesperado.";
+        }
     }
 }

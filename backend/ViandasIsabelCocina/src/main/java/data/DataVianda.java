@@ -34,7 +34,7 @@ public class DataVianda {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo obtener el listado de viandas.", e);
 			
 		} finally {
 			try {
@@ -74,7 +74,7 @@ public class DataVianda {
 			}
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo obtener la vianda solicitada.", e);
 			
 		} finally {
 			try {
@@ -114,7 +114,7 @@ public class DataVianda {
 	        }
 
 	    } catch (SQLException e) {
-	        e.printStackTrace();
+	        throw new RuntimeException("No se pudo guardar la vianda.", e);
 	        
 	    } finally {
 	        try {
@@ -140,7 +140,7 @@ public class DataVianda {
 	        stmtDeleteVianda.executeUpdate();
 
 	    } catch (SQLException e) {
-	        e.printStackTrace();
+	        throw new RuntimeException("No se pudo eliminar la vianda.", e);
 	    } finally {
 	        try {
 	            if (stmtDeleteVianda != null) { stmtDeleteVianda.close(); }
@@ -153,7 +153,7 @@ public class DataVianda {
 	
 	public void updateById(Vianda vianda) {
 		PreparedStatement stmtUpdate = null;
-		PreparedStatement stmtDelete = null;
+		
 		String sentencia = "UPDATE vianda SET nombre = ?,"
 				+ "descripcion = ?,"
 				+ "precioUnitario = ?,"
@@ -173,11 +173,10 @@ public class DataVianda {
 		        
 		        
 		    } catch (SQLException e) {
-		        e.printStackTrace();
+		        throw new RuntimeException("No se pudo actualizar la vianda.", e);
 		    } finally {
 		        try {
 		            if (stmtUpdate != null) { stmtUpdate.close(); }
-		            if (stmtDelete != null) { stmtDelete.close(); }
 		            DbConnector.getInstancia().releaseConn();
 		        } catch (SQLException e) {
 		            e.printStackTrace();
@@ -185,6 +184,5 @@ public class DataVianda {
 		    }
 		
 	}
-
-
+	
 }

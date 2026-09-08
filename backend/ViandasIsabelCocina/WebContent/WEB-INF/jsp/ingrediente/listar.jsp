@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="entities.Ingrediente" %>
 
@@ -11,11 +12,15 @@
 </head>
 <body>
   <% LinkedList<Ingrediente> lista = (LinkedList<Ingrediente>) request.getAttribute("listaIngredientes"); %>
+  <% String error = (String) request.getAttribute("error"); %>
+  <% if (error != null) { %>
+    <div class="alert alert-danger" role="alert"><%= error %></div>
+  <% } %>
   <a href="ingrediente?action=new" class="btn btn-primary">Nuevo ingrediente</a>
   <table class = "table table-striped">
   <tr>
  	 <th>ID</th>
-     <th>Código</th>
+     <th>CÃ³digo</th>
      <th>Nombre</th>
      <th>Stock</th>
      <th>Unidad</th>

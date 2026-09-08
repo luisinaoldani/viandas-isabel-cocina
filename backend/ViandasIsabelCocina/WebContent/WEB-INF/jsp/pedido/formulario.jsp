@@ -1,9 +1,11 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="entities.Vianda" %>
 <%@ page import="entities.Pedido" %>
 <%@ page import="entities.DetallePedido" %>
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.time.LocalDate" %>
 
 <!DOCTYPE html>
 <html>
@@ -18,6 +20,10 @@
 
 <% LinkedList<Vianda> listaViandas = (LinkedList<Vianda>) request.getAttribute("listaViandas"); %>
 <% Pedido pedido = (Pedido) request.getAttribute("pedido"); %>
+<% String error = (String) request.getAttribute("error"); %>
+<% if (error != null) { %>
+    <div class="alert alert-danger" role="alert"><%= error %></div>
+<% } %>
 
 <% Map<Integer, Integer> cantidadesActuales = new HashMap<>();
    if (pedido != null) {
@@ -27,7 +33,7 @@
    }
 %>
 
-<h2><%= pedido != null ? "Editar Pedido N&deg; " + pedido.getNumero() : "Realizar Pedido" %></h2>
+<h2><%= pedido != null ? "Editar Pedido N°; " + pedido.getNumero() : "Realizar Pedido" %></h2>
 
 <form action="PedidoProcesar" method="post">
 
@@ -39,6 +45,7 @@
     <div class="mb-3">
         <label class="form-label">Fecha de entrega:</label>
         <input type="date" class="form-control" name="fechaEntrega"
+               min="<%= LocalDate.now() %>"
                value="<%= pedido != null ? pedido.getFechaEntrega() : "" %>" required>
     </div>
 
@@ -46,7 +53,7 @@
         <thead>
             <tr>
                 <th>Vianda</th>
-                <th>Descripcion</th>
+                <th>Descripción</th>
                 <th>Tipo</th>
                 <th>Precio unitario</th>
                 <th>Cantidad</th>

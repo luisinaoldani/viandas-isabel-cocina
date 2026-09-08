@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="entities.Pedido" %>
 <%@ page import="entities.DetallePedido" %>
 
@@ -14,7 +15,7 @@
 
 <% Pedido pedido = (Pedido) request.getAttribute("pedido"); %>
 
-<h2>Pedido N&deg; <%= pedido.getNumero() %></h2>
+<h2>Pedido N° <%= pedido.getNumero() %></h2>
 
 <table class="table">
     <tr>

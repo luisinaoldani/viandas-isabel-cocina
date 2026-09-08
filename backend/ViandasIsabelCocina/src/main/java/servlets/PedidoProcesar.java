@@ -3,6 +3,9 @@ package servlets;
 import entities.Pedido;
 import logic.PedidoService;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,29 +25,55 @@ public class PedidoProcesar extends HttpServlet {
 
 		String accion = request.getParameter("accion");
 
-		if (accion != null && accion.equals("cancelar")) {
+		try {
 
-			int numero = Integer.parseInt(request.getParameter("numero"));
-			service.cancelarPedido(numero);
-			response.sendRedirect("pedido");
+			if (accion != null && accion.equals("cancelar")) {
 
-		} else if (accion != null && accion.equals("actualizar")) {
+				int numero = Integer.parseInt(request.getParameter("numero"));
+				service.cancelarPedido(numero);
+				response.sendRedirect("pedido");
 
-			int numero = Integer.parseInt(request.getParameter("numero"));
-			LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
-			Map<Integer, Integer> cantidades = leerCantidades(request);
+			} else if (accion != null && accion.equals("actualizar")) {
 
-			service.actualizarPedido(numero, fechaEntrega, cantidades);
-			response.sendRedirect("pedido?action=detalle&numero=" + numero);
+				int numero = Integer.parseInt(request.getParameter("numero"));
 
-		} else {
+				try {
+					LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
+					Map<Integer, Integer> cantidades = leerCantidades(request);
 
-			LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
-			Map<Integer, Integer> cantidades = leerCantidades(request);
+					service.actualizarPedido(numero, fechaEntrega, cantidades);
+					response.sendRedirect("pedido?action=detalle&numero=" + numero);
 
-			Pedido pedido = service.crearPedido(fechaEntrega, cantidades);
-			request.setAttribute("pedido", pedido);
-			request.getRequestDispatcher("/WEB-INF/jsp/pedido/confirmacion.jsp").forward(request, response);
+				} catch (RuntimeException e) {
+					response.sendRedirect("pedido?action=edit&numero=" + numero + "&error=" + encodar(e.getMessage()));
+				}
+
+			} else {
+
+				try {
+					LocalDate fechaEntrega = LocalDate.parse(request.getParameter("fechaEntrega"));
+					Map<Integer, Integer> cantidades = leerCantidades(request);
+
+					Pedido pedido = service.crearPedido(fechaEntrega, cantidades);
+					request.setAttribute("pedido", pedido);
+					request.getRequestDispatcher("/WEB-INF/jsp/pedido/confirmacion.jsp").forward(request, response);
+
+				} catch (RuntimeException e) {
+					response.sendRedirect("pedido?action=new&error=" + encodar(e.getMessage()));
+				}
+			}
+
+		} catch (RuntimeException e) {
+
+			response.sendRedirect("pedido?error=" + encodar(e.getMessage()));
+		}
+	}
+
+	private String encodar(String mensaje) {
+		try {
+			return URLEncoder.encode(mensaje, StandardCharsets.UTF_8.toString());
+		} catch (UnsupportedEncodingException e) {
+			return "Ocurrio un error inesperado.";
 		}
 	}
 

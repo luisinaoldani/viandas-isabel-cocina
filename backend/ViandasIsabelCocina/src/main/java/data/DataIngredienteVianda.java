@@ -53,7 +53,7 @@ public class DataIngredienteVianda {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo obtener el listado de ingredientes por vianda.", e);
 
 		} finally {
 			try {
@@ -107,7 +107,7 @@ public class DataIngredienteVianda {
 				iv.setCantidad(rs.getDouble("cantidad"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo obtener la relación ingrediente-vianda.", e);
 
 		} finally {
 			try {
@@ -135,11 +135,10 @@ public class DataIngredienteVianda {
 			stmt.executeUpdate();
 
 		} catch (SQLIntegrityConstraintViolationException e) {
-			System.out.println("Ya existe esa relación ingrediente-vianda.");
-			ingredienteVianda = null;
+			throw new IllegalArgumentException("Ya existe esa relación ingrediente-vianda.", e);
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo guardar la relación ingrediente-vianda.", e);
 
 		} finally {
 			try {
@@ -164,7 +163,7 @@ public class DataIngredienteVianda {
 			stmtDeleteIngredienteVianda.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo eliminar la relación ingrediente-vianda.", e);
 		} finally {
 			try {
 				if (stmtDeleteIngredienteVianda != null) { stmtDeleteIngredienteVianda.close(); }
@@ -188,7 +187,7 @@ public class DataIngredienteVianda {
 			stmtUpdate.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo actualizar la relación ingrediente-vianda.", e);
 		} finally {
 			try {
 				if (stmtUpdate != null) { stmtUpdate.close(); }
@@ -232,7 +231,7 @@ public class DataIngredienteVianda {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo obtener los ingredientes de la vianda.", e);
 
 		} finally {
 			try {

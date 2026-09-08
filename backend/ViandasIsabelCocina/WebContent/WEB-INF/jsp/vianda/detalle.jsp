@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="entities.Vianda" %>
 <%@ page import="entities.IngredienteVianda" %>
 <%@ page import="java.util.LinkedList" %>
@@ -45,7 +46,7 @@
 <% LinkedList<IngredienteVianda> receta = vianda.getReceta(); %>
 
 <% if (receta.isEmpty()) { %>
-    <p>Esta vianda todavía no tiene ingredientes cargados.</p>
+    <p>Esta vianda todavÃ­a no tiene ingredientes cargados.</p>
 <% } else { %>
     <table class="table table-striped">
         <tr>

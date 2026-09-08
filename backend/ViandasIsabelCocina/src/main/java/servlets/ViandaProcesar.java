@@ -2,6 +2,9 @@ package servlets;
 
 import logic.ViandaService;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,23 +21,38 @@ public class ViandaProcesar extends HttpServlet {
 
         String accion = request.getParameter("accion");
 
-        if (accion != null && accion.equals("eliminar")) {
+        try {
 
-            int id = Integer.parseInt(request.getParameter("idVianda"));
-            service.eliminar(id);
+            if (accion != null && accion.equals("eliminar")) {
 
-        } else {
+                int id = Integer.parseInt(request.getParameter("idVianda"));
+                service.eliminar(id);
 
-            String id = request.getParameter("idVianda");
-            String nombre = request.getParameter("nombre");
-            String descripcion = request.getParameter("descripcion");
-            Double precioUnitario = Double.parseDouble(request.getParameter("precioUnitario"));
-            String tipo = request.getParameter("tipo");
-            boolean activa = Boolean.parseBoolean(request.getParameter("activa"));
+            } else {
 
-            service.guardar(id, nombre, descripcion, precioUnitario, tipo, activa);
+                String id = request.getParameter("idVianda");
+                String nombre = request.getParameter("nombre");
+                String descripcion = request.getParameter("descripcion");
+                Double precioUnitario = Double.parseDouble(request.getParameter("precioUnitario"));
+                String tipo = request.getParameter("tipo");
+                boolean activa = Boolean.parseBoolean(request.getParameter("activa"));
+
+                service.guardar(id, nombre, descripcion, precioUnitario, tipo, activa);
+            }
+
+            response.sendRedirect("vianda");
+
+        } catch (RuntimeException e) {
+
+            response.sendRedirect("vianda?error=" + encodar(e.getMessage()));
         }
+    }
 
-        response.sendRedirect("vianda");
+    private String encodar(String mensaje) {
+        try {
+            return URLEncoder.encode(mensaje, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException e) {
+            return "Ocurrio un error inesperado.";
+        }
     }
 }

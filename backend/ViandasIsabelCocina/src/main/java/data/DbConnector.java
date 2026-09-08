@@ -12,7 +12,7 @@ public class DbConnector {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se encontró el driver de la base de datos.", e);
 		}
 	}
 	
@@ -30,20 +30,23 @@ public class DbConnector {
 				conectados = 0;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo conectar con la base de datos.", e);
 		}
+		
 		conectados++;
 		return conn;
 	}
 	
 	public void releaseConn() {
 		conectados--;
+		
 		try {
-			if (conectados <= 0) {
+			if (conectados <= 0 && conn != null) {
 				conn.close();
+				conn = null;
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			 throw new RuntimeException("No se pudo cerrar la conexión con la base de datos.", e);
 		}
 	}
 

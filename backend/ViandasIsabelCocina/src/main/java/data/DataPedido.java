@@ -48,10 +48,12 @@ public class DataPedido {
 		} catch (SQLException e) {
 			try {
 				conn.rollback();
+				
 			} catch (SQLException ex) {
 				ex.printStackTrace();
+				
 			}
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo registrar el pedido.", e);
 
 		} finally {
 			try {
@@ -89,7 +91,7 @@ public class DataPedido {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo obtener el listado de pedidos.", e);
 
 		} finally {
 			try {
@@ -126,7 +128,7 @@ public class DataPedido {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo obtener el pedido solicitado.", e);
 
 		} finally {
 			try {
@@ -169,10 +171,12 @@ public class DataPedido {
 		} catch (SQLException e) {
 			try {
 				conn.rollback();
+				
 			} catch (SQLException ex) {
 				ex.printStackTrace();
+				
 			}
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo actualizar el pedido.", e);
 
 		} finally {
 			try {
@@ -198,7 +202,7 @@ public class DataPedido {
 			stmt.executeUpdate();
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException("No se pudo cancelar el pedido.", e);
 
 		} finally {
 			try {

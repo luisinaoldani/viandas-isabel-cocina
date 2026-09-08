@@ -39,7 +39,10 @@ public class DataDetallePedido {
 			}
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new RuntimeException(
+			        "No se pudo obtener el detalle del pedido.",
+			        e
+			    );
 
 		} finally {
 			try {

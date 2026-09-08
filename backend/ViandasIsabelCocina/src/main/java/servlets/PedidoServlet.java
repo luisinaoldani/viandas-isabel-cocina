@@ -20,35 +20,54 @@ public class PedidoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String action = request.getParameter("action");
+		String error = request.getParameter("error");
 
-		if (action == null) {
+		try {
 
-			LinkedList<Pedido> listaPedidos = service.listar();
-			request.setAttribute("listaPedidos", listaPedidos);
+			if (action == null) {
+
+				LinkedList<Pedido> listaPedidos = service.listar();
+				request.setAttribute("listaPedidos", listaPedidos);
+				if (error != null) {
+					request.setAttribute("error", error);
+				}
+				request.getRequestDispatcher("/WEB-INF/jsp/pedido/listar.jsp").forward(request, response);
+
+			} else if (action.equals("new")) {
+
+				LinkedList<Vianda> listaViandas = service.listarViandasActivas();
+				request.setAttribute("listaViandas", listaViandas);
+				if (error != null) {
+					request.setAttribute("error", error);
+				}
+				request.getRequestDispatcher("/WEB-INF/jsp/pedido/formulario.jsp").forward(request, response);
+
+			} else if (action.equals("edit")) {
+
+				int numero = Integer.parseInt(request.getParameter("numero"));
+				Pedido pedido = service.buscarPorId(numero);
+				LinkedList<Vianda> listaViandas = service.listarViandasActivas();
+				request.setAttribute("pedido", pedido);
+				request.setAttribute("listaViandas", listaViandas);
+				if (error != null) {
+					request.setAttribute("error", error);
+				}
+				request.getRequestDispatcher("/WEB-INF/jsp/pedido/formulario.jsp").forward(request, response);
+
+			} else if (action.equals("detalle")) {
+
+				int numero = Integer.parseInt(request.getParameter("numero"));
+				Pedido pedido = service.buscarPorId(numero);
+				request.setAttribute("pedido", pedido);
+				request.getRequestDispatcher("/WEB-INF/jsp/pedido/detalle.jsp").forward(request, response);
+
+			}
+
+		} catch (RuntimeException e) {
+
+			request.setAttribute("error", e.getMessage());
+			request.setAttribute("listaPedidos", new LinkedList<Pedido>());
 			request.getRequestDispatcher("/WEB-INF/jsp/pedido/listar.jsp").forward(request, response);
-
-		} else if (action.equals("new")) {
-
-			LinkedList<Vianda> listaViandas = service.listarViandasActivas();
-			request.setAttribute("listaViandas", listaViandas);
-			request.getRequestDispatcher("/WEB-INF/jsp/pedido/formulario.jsp").forward(request, response);
-
-		} else if (action.equals("edit")) {
-
-			int numero = Integer.parseInt(request.getParameter("numero"));
-			Pedido pedido = service.buscarPorId(numero);
-			LinkedList<Vianda> listaViandas = service.listarViandasActivas();
-			request.setAttribute("pedido", pedido);
-			request.setAttribute("listaViandas", listaViandas);
-			request.getRequestDispatcher("/WEB-INF/jsp/pedido/formulario.jsp").forward(request, response);
-
-		} else if (action.equals("detalle")) {
-
-			int numero = Integer.parseInt(request.getParameter("numero"));
-			Pedido pedido = service.buscarPorId(numero);
-			request.setAttribute("pedido", pedido);
-			request.getRequestDispatcher("/WEB-INF/jsp/pedido/detalle.jsp").forward(request, response);
-
 		}
 	}
 }
