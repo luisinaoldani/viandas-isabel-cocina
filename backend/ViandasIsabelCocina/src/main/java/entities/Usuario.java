@@ -6,6 +6,7 @@ public abstract class Usuario {
 	private String apellido;
 	private String email;
 	private String password;
+	private String rol;
 	
 	public int getIdUsuario() {
 		return idUsuario;
@@ -37,15 +38,22 @@ public abstract class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getRol() {
+		return rol;
+	}
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
 	
 	public Usuario() {
-	};
-	
-	public Usuario(String nombre, String apellido, String email, String password) {
+	}
+		
+	public Usuario(String nombre, String apellido, String email, String password, String rol) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.password = password;
+        this.rol = rol;
     }
 
 }

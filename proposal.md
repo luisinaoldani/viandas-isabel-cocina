@@ -37,9 +37,9 @@ La aplicación web cliente-servidor a desarrollar consiste en un sistema de vent
 
 ### Aprobación Directa
 
-| Requerimiento                    | Detalle                                                                                                                                                               |
-| :------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **ABMC**                         | 1. Usuario<br>2. Administrador<br>3. Cliente<br>4. Empresa<br>5. Mayorista<br>6. Vianda<br>7. Ingrediente<br>8. Ingrediente_vianda<br>9. Pedido<br>10. Detalle_pedido |
-| **CU "Complejo"**(nivel resumen) | 1. CUR Seguimiento de pedidos (CUU Realizar pedido, CUU Consultar listado de pedidos por estado, CUU Actualizar estado de pedido)                                     |
-| **Listado complejo**             | 1. Listado de pedidos confirmados                                                                                                                                     |
-| **Nivel de acceso**              | 1. Usuario<br>2. Administrador                                                                                                                                        |
+| Requerimiento                    | Detalle                                                                                                                                  |
+| :------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
+| **ABMC**                         | 1. Administrador<br>2. Empresa<br>3. Mayorista<br>4. Vianda<br>5. Ingrediente<br>6. Ingrediente_vianda<br>7. Pedido<br>8. Detalle_pedido |
+| **CU "Complejo"**(nivel resumen) | 1. CUR Seguimiento de pedidos (CUU Realizar pedido, CUU Consultar listado de pedidos por estado, CUU Actualizar estado de pedido)        |
+| **Listado complejo**             | 1. Listado de pedidos confirmados                                                                                                        |
+| **Nivel de acceso**              | 1. Usuario<br>2. Administrador                                                                                                           |

@@ -34,10 +34,10 @@ public abstract class Cliente extends Usuario {
 	public Cliente() {
 	}
 	
-	public Cliente(String nombre, String apellido, String email, String password, String cuit,
+	public Cliente(String nombre, String apellido, String email, String password, String rol, String cuit,
 			String nombreNegocio, String telefono, String domicilio) {
 		
-        super(nombre, apellido, email, password);
+        super(nombre, apellido, email, password, rol);
         this.cuit = cuit;
         this.nombreNegocio = nombreNegocio;
         this.telefono = telefono;

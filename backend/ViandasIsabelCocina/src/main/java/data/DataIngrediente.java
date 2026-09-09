@@ -90,7 +90,9 @@ public class DataIngrediente {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = DbConnector.getInstancia().getConn().prepareStatement("INSERT INTO ingrediente (codigo, nombre, stock, unidadMedida) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			stmt = DbConnector.getInstancia().getConn().prepareStatement(
+					"INSERT INTO ingrediente (codigo, nombre, stock, unidadMedida) VALUES (?, ?, ?, ?)", 
+					Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, ingrediente.getCodigo());
 			stmt.setString(2, ingrediente.getNombre());
 			stmt.setDouble(3, ingrediente.getStock());

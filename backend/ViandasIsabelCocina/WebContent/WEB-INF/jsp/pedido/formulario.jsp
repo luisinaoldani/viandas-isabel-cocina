@@ -33,7 +33,7 @@
    }
 %>
 
-<h2><%= pedido != null ? "Editar Pedido N°; " + pedido.getNumero() : "Realizar Pedido" %></h2>
+<h2><%= pedido != null ? "Editar Pedido N° " + pedido.getNumero() : "Realizar Pedido" %></h2>
 
 <form action="PedidoProcesar" method="post">
 
