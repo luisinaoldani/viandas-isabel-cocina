@@ -14,12 +14,19 @@
 <div class="container mt-4">
 
 <% LinkedList<Pedido> listaPedidos = (LinkedList<Pedido>) request.getAttribute("listaPedidos"); %>
+<% String estadoFiltro = (String) request.getAttribute("estadoFiltro"); %>
 <% String error = (String) request.getAttribute("error"); %>
 <% if (error != null) { %>
     <div class="alert alert-danger" role="alert"><%= error %></div>
 <% } %>
 
 <a href="pedido?action=new" class="btn btn-primary mb-3">Nuevo Pedido</a>
+
+<% if ("CONFIRMADO".equals(estadoFiltro)) { %>
+    <a href="pedido" class="btn btn-outline-secondary mb-3">Ver todos los pedidos</a>
+<% } else { %>
+    <a href="pedido?estado=CONFIRMADO" class="btn btn-outline-success mb-3">Ver pedidos confirmados</a>
+<% } %>
 
 <table class="table table-striped">
 <tr>
@@ -38,9 +45,17 @@
         <td>
             <a href="pedido?action=detalle&numero=<%= p.getNumero() %>" class="btn btn-info btn-sm">Ver detalle</a>
 
-            <% if ("PENDIENTE".equals(p.getEstado())) { %>
+            <% if ("PENDIENTE_CONFIRMACION".equals(p.getEstado())) { %>
                 <a href="pedido?action=edit&numero=<%= p.getNumero() %>" class="btn btn-warning btn-sm">Editar</a>
 
+                <form action="PedidoProcesar" method="post" style="display:inline">
+                    <input type="hidden" name="accion" value="confirmar">
+                    <input type="hidden" name="numero" value="<%= p.getNumero() %>">
+                    <button type="submit" class="btn btn-success btn-sm">Confirmar</button>
+                </form>
+            <% } %>
+            
+            <% if ("PENDIENTE_CONFIRMACION".equals(p.getEstado()) || "CONFIRMADO".equals(p.getEstado())) { %>
                 <form action="PedidoProcesar" method="post" style="display:inline"
                       onsubmit="return confirm('&iquest;Est&aacute;s seguro que quer&eacute;s cancelar el pedido N&deg; <%= p.getNumero() %>?');">
                     <input type="hidden" name="accion" value="cancelar">
@@ -48,6 +63,7 @@
                     <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
                 </form>
             <% } %>
+            
         </td>
     </tr>
 <% } %>
@@ -56,4 +72,3 @@
 </div>
 </body>
 </html>
-

@@ -26,6 +26,10 @@ public class PedidoService {
 		return dataPedido.getAll();
 	}
 
+	public LinkedList<Pedido> listar(String estadoFiltro) {
+		return dataPedido.getAll(estadoFiltro);
+	}
+
 	public Pedido buscarPorId(int numero) {
 		return dataPedido.getById(numero);
 	}
@@ -58,8 +62,8 @@ public class PedidoService {
 		if (pedido == null) {
 			throw new IllegalArgumentException("El pedido no existe.");
 		}
-		if (!"PENDIENTE".equals(pedido.getEstado())) {
-			throw new IllegalArgumentException("Solo se pueden modificar pedidos PENDIENTES.");
+		if (!"PENDIENTE_CONFIRMACION".equals(pedido.getEstado())) {
+			throw new IllegalArgumentException("Solo se pueden modificar pedidos pendientes de confirmacion.");
 		}
 		if (fechaEntrega == null) {
 			throw new IllegalArgumentException("La fecha de entrega es obligatoria");
@@ -88,6 +92,10 @@ public class PedidoService {
 
 	public void cancelarPedido(int numero) {
 		dataPedido.cancelar(numero);
+	}
+
+	public void confirmarPedido(int numero) {
+		dataPedido.confirmar(numero);
 	}
 
 }

@@ -43,6 +43,9 @@
 
 <p><strong>Total: <%= pedido.getPrecioTotal() %></strong></p>
 
+<a href="pedido" class="btn btn-secondary">Volver al listado</a>
+
 </div>
 </body>
 </html>
+

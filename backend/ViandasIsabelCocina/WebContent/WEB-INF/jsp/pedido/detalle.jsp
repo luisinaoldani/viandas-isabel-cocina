@@ -55,7 +55,7 @@
 
 <p><strong>Total: <%= pedido.getPrecioTotal() %></strong></p>
 
-<% if ("PENDIENTE".equals(pedido.getEstado())) { %>
+<% if ("PENDIENTE_CONFIRMACION".equals(pedido.getEstado())) { %>
     <a href="pedido?action=edit&numero=<%= pedido.getNumero() %>" class="btn btn-warning">Editar</a>
 <% } %>
 <a href="pedido" class="btn btn-secondary">Volver al listado</a>

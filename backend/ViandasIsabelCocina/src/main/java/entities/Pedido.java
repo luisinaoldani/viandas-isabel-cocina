@@ -74,6 +74,6 @@ public class Pedido {
 	    this.detalles = new LinkedList<>();
 	    this.fechaRealizado = LocalDate.now();
 	    this.fechaEntrega = fechaEntrega;
-	    this.estado = "PENDIENTE";
+	    this.estado = "PENDIENTE_CONFIRMACION";
 	}
 }

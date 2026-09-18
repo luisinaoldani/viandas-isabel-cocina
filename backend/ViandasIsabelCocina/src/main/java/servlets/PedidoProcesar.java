@@ -33,6 +33,12 @@ public class PedidoProcesar extends HttpServlet {
 				service.cancelarPedido(numero);
 				response.sendRedirect("pedido");
 
+			} else if (accion != null && accion.equals("confirmar")) {
+
+				int numero = Integer.parseInt(request.getParameter("numero"));
+				service.confirmarPedido(numero);
+				response.sendRedirect("pedido");
+
 			} else if (accion != null && accion.equals("actualizar")) {
 
 				int numero = Integer.parseInt(request.getParameter("numero"));

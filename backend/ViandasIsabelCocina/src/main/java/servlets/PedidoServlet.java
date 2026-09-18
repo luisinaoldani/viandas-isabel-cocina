@@ -21,13 +21,15 @@ public class PedidoServlet extends HttpServlet {
 
 		String action = request.getParameter("action");
 		String error = request.getParameter("error");
+		String estadoFiltro = request.getParameter("estado");
 
 		try {
 
 			if (action == null) {
 
-				LinkedList<Pedido> listaPedidos = service.listar();
+				LinkedList<Pedido> listaPedidos = service.listar(estadoFiltro);
 				request.setAttribute("listaPedidos", listaPedidos);
+				request.setAttribute("estadoFiltro", estadoFiltro);
 				if (error != null) {
 					request.setAttribute("error", error);
 				}

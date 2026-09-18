@@ -71,14 +71,26 @@ public class DataPedido {
 	}
 
 	public LinkedList<Pedido> getAll() {
+		return getAll(null);
+	}
+
+	public LinkedList<Pedido> getAll(String estadoFiltro) {
 		LinkedList<Pedido> pedidos = new LinkedList<>();
-		Statement stmt = null;
+		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
 		try {
-			stmt = DbConnector.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery(
-					"SELECT numero, fechaRealizado, fechaEntrega, fechaCancelacion, estado FROM pedido ORDER BY numero DESC");
+			String sql = "SELECT numero, fechaRealizado, fechaEntrega, fechaCancelacion, estado FROM pedido";
+			if (estadoFiltro != null && !estadoFiltro.isEmpty()) {
+				sql += " WHERE estado = ?";
+			}
+			sql += " ORDER BY fechaEntrega ASC";
+
+			stmt = DbConnector.getInstancia().getConn().prepareStatement(sql);
+			if (estadoFiltro != null && !estadoFiltro.isEmpty()) {
+				stmt.setString(1, estadoFiltro);
+			}
+			rs = stmt.executeQuery();
 
 			while (rs.next()) {
 				Pedido p = new Pedido();
@@ -196,10 +208,15 @@ public class DataPedido {
 
 		try {
 			stmt = DbConnector.getInstancia().getConn().prepareStatement(
-					"UPDATE pedido SET estado = 'CANCELADO', fechaCancelacion = ? WHERE numero = ? AND estado = 'PENDIENTE'");
+					"UPDATE pedido SET estado = 'CANCELADO', fechaCancelacion = ? "
+					+ "WHERE numero = ? AND estado IN ('PENDIENTE_CONFIRMACION', 'CONFIRMADO')");
 			stmt.setDate(1, Date.valueOf(java.time.LocalDate.now()));
 			stmt.setInt(2, numero);
-			stmt.executeUpdate();
+			int filasAfectadas = stmt.executeUpdate();
+
+			if (filasAfectadas == 0) {
+				throw new RuntimeException("No se pudo cancelar el pedido: no existe o no esta en un estado que permita cancelarlo.");
+			}
 
 		} catch (SQLException e) {
 			throw new RuntimeException("No se pudo cancelar el pedido.", e);
@@ -214,4 +231,33 @@ public class DataPedido {
 			}
 		}
 	}
+
+	public void confirmar(int numero) {
+		PreparedStatement stmt = null;
+
+		try {
+			stmt = DbConnector.getInstancia().getConn().prepareStatement(
+					"UPDATE pedido SET estado = 'CONFIRMADO' "
+					+ "WHERE numero = ? AND estado = 'PENDIENTE_CONFIRMACION'");
+			stmt.setInt(1, numero);
+			int filasAfectadas = stmt.executeUpdate();
+
+			if (filasAfectadas == 0) {
+				throw new RuntimeException("No se pudo confirmar el pedido: no existe o no esta pendiente de confirmacion.");
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException("No se pudo confirmar el pedido.", e);
+
+		} finally {
+			try {
+				if (stmt != null) { stmt.close(); }
+				DbConnector.getInstancia().releaseConn();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
